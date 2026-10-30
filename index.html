@@ -386,6 +386,7 @@
     .polaroid.s0 { z-index: 3; transform: rotate(-3deg); }
     .polaroid.s1 { z-index: 2; transform: translate(34px, 12px) rotate(6deg); }
     .polaroid.s2 { z-index: 1; transform: translate(-34px, 20px) rotate(-10deg); }
+    .polaroid.s3, .polaroid.s4, .polaroid.s5 { z-index: 0; opacity: 0; transform: translate(-34px, 20px) rotate(-10deg); }
     .polaroid.out { z-index: 4; transform: translate(115%, -6%) rotate(18deg); }
     .stack:hover .polaroid.s0 { transform: rotate(0deg) scale(1.02); }
     .stack-hint { text-align: center; margin-top: 52px; font: .78rem var(--mono); color: var(--muted); }
@@ -395,6 +396,13 @@
     .travel h3, .mini h3 { font-family: var(--display); font-size: 1.15rem; margin-bottom: 18px; }
     .plane { position: absolute; top: 6px; font-size: 1rem; animation: fly 11s linear infinite; }
     @keyframes fly { 0% { left: -8%; transform: translateY(0) rotate(0); } 25% { transform: translateY(-6px) rotate(-4deg); } 50% { transform: translateY(4px) rotate(3deg); } 75% { transform: translateY(-4px) rotate(-2deg); } 100% { left: 106%; transform: translateY(0) rotate(0); } }
+    .stop.next { background: transparent; border: 1px dashed rgba(96,165,250,.6); color: #93c5fd; }
+    .stop.next .dots::after { content: ""; animation: dots 1.4s steps(4) infinite; }
+    @keyframes dots { 0% { content: ""; } 25% { content: "."; } 50% { content: ".."; } 75% { content: "..."; } }
+    .travel .note { margin: 16px 0 0; color: var(--muted); font-size: .92rem; }
+    .mini.wide { grid-column: 1 / -1; }
+    .mini:hover .icon.food { animation: munch .6s 2; }
+    @keyframes munch { 50% { transform: scale(1.25) rotate(-12deg); } }
     .stops { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
     .stop {
       display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 999px; font-weight: 500; font-size: .92rem;
@@ -680,12 +688,15 @@
               <figure class="polaroid"><img src="pooja-1.jpg" alt="Pooja smiling in a white beanie on a sunny hill-station street" loading="lazy"><figcaption>sunny hill-station days ☀️</figcaption></figure>
               <figure class="polaroid"><img src="pooja-2.jpg" alt="Pooja in pink earmuffs outside a cosy cafe at night" loading="lazy"><figcaption>cosy café nights ☕</figcaption></figure>
               <figure class="polaroid"><img src="pooja-3.jpg" alt="Pooja on old stone steps in front of a stone church under a blue sky" loading="lazy"><figcaption>old stairs, new stories ⛰️</figcaption></figure>
+              <figure class="polaroid"><img src="pooja-4.jpg" alt="Pooja smiling in a blue resort pool with hills behind" loading="lazy"><figcaption>pool day &gt; deploy day 🏊‍♀️</figcaption></figure>
+              <figure class="polaroid"><img src="pooja-5.jpg" alt="Pooja laughing and posing on a cobbled path at night" loading="lazy"><figcaption>0 bugs, 100% vibes 💃</figcaption></figure>
+              <figure class="polaroid"><img src="pooja-6.jpg" alt="A long resort buffet counter full of dishes" loading="lazy"><figcaption>my favourite bulk API 🍛</figcaption></figure>
             </div>
             <div class="stack-hint">click the photos to shuffle ↻</div>
           </div>
           <div class="life-text">
-            <p class="about-intro reveal">When I'm not configuring quotes, you'll find me <em>on the road</em> somewhere in the hills
-              or <em>lost in a book</em> about how the mind works.</p>
+            <p class="about-intro reveal">When I'm not configuring quotes, I'm probably <em>packing a bag</em>, <em>hunting for my next meal</em>,
+              or reading about why my brain wants dessert at midnight. 🍰</p>
             <div class="travel reveal">
               <span class="plane" aria-hidden="true">✈️</span>
               <h3>Places that have my heart</h3>
@@ -697,7 +708,10 @@
                 <li class="stop" style="--i:4"><i>📍</i>Goa</li>
                 <li class="stop" style="--i:5"><i>📍</i>Rishikesh</li>
                 <li class="stop" style="--i:6"><i>📍</i>Vrindavan</li>
+                <li class="stop" style="--i:7"><i>📍</i>Pushkar</li>
+                <li class="stop next" style="--i:8"><i>🌍</i>International<span class="dots"></span></li>
               </ul>
+              <p class="note">Status: passport ready ✅ · bags half-packed 🧳 · international trip still waiting for the deploy window.</p>
             </div>
             <div class="mini-row">
               <div class="mini reveal">
@@ -707,6 +721,10 @@
               <div class="mini reveal" style="--d:.1s">
                 <h3><span class="icon heart">🎬</span>Inspired by Dear Zindagi</h3>
                 <p>A film that taught me it's okay to pause, talk things through and be gentle with yourself. I try to bring that same calm into life and work.</p>
+              </div>
+              <div class="mini wide reveal" style="--d:.2s">
+                <h3><span class="icon food">🍜</span>Certified foodie (not by Salesforce)</h3>
+                <p>I'll happily drive 200 km for good food. A buffet is just a bulk operation I take very seriously, and my code always reviews better after dessert. Recommend me a café and we're instantly friends. ☕</p>
               </div>
             </div>
           </div>

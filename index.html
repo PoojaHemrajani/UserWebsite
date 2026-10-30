@@ -8,20 +8,20 @@
   <script>document.documentElement.classList.add("js");</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #07060f;
-      --bg-2: #0e0c1d;
+      --bg: #06080d;
+      --bg-2: #0c111d;
       --surface: rgba(255,255,255,.04);
       --line: rgba(255,255,255,.09);
-      --text: #f1efff;
-      --muted: #a7a3c7;
-      --violet: #8b5cf6;
-      --pink: #ff3d7f;
-      --teal: #2dd4bf;
-      --amber: #fbbf24;
-      --grad: linear-gradient(110deg, #8b5cf6, #ff3d7f 55%, #fbbf24);
+      --text: #f1f5fb;
+      --muted: #9aa6bd;
+      --violet: #3b82f6;
+      --pink: #60a5fa;
+      --teal: #60a5fa;
+      --amber: #60a5fa;
+      --grad: linear-gradient(110deg, #dbeafe, #60a5fa);
       --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
       --display: "Space Grotesk", Inter, system-ui, sans-serif;
     }
@@ -54,7 +54,7 @@
     #progress { position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 60; background: var(--grad); transform-origin: 0 50%; transform: scaleX(0); }
     #cursor-glow {
       position: fixed; z-index: 1; width: 480px; height: 480px; border-radius: 50%; pointer-events: none;
-      background: radial-gradient(circle, rgba(139,92,246,.16), transparent 60%);
+      background: radial-gradient(circle, rgba(59,130,246,.16), transparent 60%);
       transform: translate(-50%, -50%); left: -999px; top: -999px; transition: opacity .3s;
     }
     #cursor-dot {
@@ -62,12 +62,12 @@
       background: var(--pink); transform: translate(-50%, -50%); left: -99px; top: -99px;
       box-shadow: 0 0 14px var(--pink); transition: width .2s, height .2s, background .2s;
     }
-    #cursor-dot.big { width: 42px; height: 42px; background: rgba(255,61,127,.18); box-shadow: none; border: 1px solid var(--pink); }
+    #cursor-dot.big { width: 42px; height: 42px; background: rgba(96,165,250,.18); box-shadow: none; border: 1px solid var(--pink); }
     @media (pointer: coarse) { #cursor-glow, #cursor-dot { display: none; } }
 
     /* ---------- Nav ---------- */
     header.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; transition: background .3s, border-color .3s; border-bottom: 1px solid transparent; }
-    header.nav.scrolled { background: rgba(7,6,15,.75); backdrop-filter: blur(12px); border-color: var(--line); }
+    header.nav.scrolled { background: rgba(6,8,13,.75); backdrop-filter: blur(12px); border-color: var(--line); }
     .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 66px; }
     .brand { font-family: var(--mono); font-weight: 600; font-size: .95rem; }
     .brand .tag-open, .brand .tag-close { color: var(--pink); }
@@ -82,14 +82,14 @@
     /* ---------- Hero ---------- */
     .hero {
       position: relative; min-height: 100vh; min-height: 100svh; display: flex; align-items: center; overflow: hidden;
-      background: #0b0918 url("dev.jpeg") center / cover no-repeat;
+      background: #0a0e17 url("dev.jpeg") center / cover no-repeat;
     }
     .hero::before {
       content: ""; position: absolute; inset: 0;
       background:
-        linear-gradient(90deg, rgba(7,6,15,.96) 0%, rgba(7,6,15,.88) 42%, rgba(7,6,15,.55) 100%),
-        radial-gradient(800px 500px at 80% 20%, rgba(139,92,246,.35), transparent 60%),
-        radial-gradient(600px 400px at 10% 90%, rgba(255,61,127,.22), transparent 60%);
+        linear-gradient(90deg, rgba(6,8,13,.96) 0%, rgba(6,8,13,.88) 42%, rgba(6,8,13,.55) 100%),
+        radial-gradient(800px 500px at 80% 20%, rgba(59,130,246,.35), transparent 60%),
+        radial-gradient(600px 400px at 10% 90%, rgba(96,165,250,.22), transparent 60%);
     }
     #particles { position: absolute; inset: 0; width: 100%; height: 100%; }
     .hero .wrap { position: relative; z-index: 2; display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; padding-top: 90px; padding-bottom: 60px; }
@@ -111,16 +111,16 @@
       font-weight: 600; font-size: .95rem; border: 1px solid var(--line); overflow: hidden; cursor: pointer;
       transition: transform .2s ease, box-shadow .3s ease; background: rgba(255,255,255,.04); color: var(--text);
     }
-    .btn.primary { background: linear-gradient(110deg, #8b5cf6, #ff3d7f, #fbbf24, #ff3d7f, #8b5cf6); background-size: 200% 100%; border: 0; animation: shimmer 4s linear infinite; box-shadow: 0 10px 30px rgba(255,61,127,.3); }
+    .btn.primary { background: linear-gradient(110deg, #1d4ed8, #3b82f6, #60a5fa, #3b82f6, #1d4ed8); background-size: 200% 100%; border: 0; animation: shimmer 4s linear infinite; box-shadow: 0 10px 30px rgba(96,165,250,.3); }
     @keyframes shimmer { to { background-position: -200% 0; } }
-    .btn:hover { box-shadow: 0 12px 34px rgba(139,92,246,.4); }
+    .btn:hover { box-shadow: 0 12px 34px rgba(59,130,246,.4); }
     .btn .arrow { transition: transform .3s; }
     .btn:hover .arrow { transform: translateX(4px); }
 
     /* Code editor */
     .editor {
-      background: rgba(13,11,28,.82); border: 1px solid var(--line); border-radius: 16px; overflow: hidden;
-      box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(139,92,246,.15), 0 0 60px rgba(139,92,246,.18);
+      background: rgba(10,14,23,.82); border: 1px solid var(--line); border-radius: 16px; overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(59,130,246,.15), 0 0 60px rgba(59,130,246,.18);
       backdrop-filter: blur(8px); transform-style: preserve-3d; animation: float 6s ease-in-out infinite;
     }
     @keyframes float { 50% { transform: translateY(-12px); } }
@@ -128,9 +128,9 @@
     .editor .bar i { width: 11px; height: 11px; border-radius: 50%; display: block; }
     .editor .bar i:nth-child(1) { background: #ff5f57; } .editor .bar i:nth-child(2) { background: #febc2e; } .editor .bar i:nth-child(3) { background: #28c840; }
     .editor .bar span { margin-left: 10px; font-family: var(--mono); font-size: .78rem; color: var(--muted); }
-    .editor pre { margin: 0; padding: 18px 20px 22px; font: 13.5px/1.75 var(--mono); color: #d6d3f0; min-height: 330px; white-space: pre-wrap; counter-reset: ln; }
-    .tk-kw { color: #c084fc; } .tk-fn { color: #5eead4; } .tk-str { color: #fbbf24; } .tk-cm { color: #6b6890; font-style: italic; }
-    .tk-ty { color: #ff7aa8; } .tk-op { color: #94a3b8; }
+    .editor pre { margin: 0; padding: 18px 20px 22px; font: 13.5px/1.75 var(--mono); color: #d4dbe8; min-height: 330px; white-space: pre-wrap; counter-reset: ln; }
+    .tk-kw { color: #60a5fa; } .tk-fn { color: #dbeafe; } .tk-str { color: #93c5fd; } .tk-cm { color: #64748b; font-style: italic; }
+    .tk-ty { color: #bfdbfe; } .tk-op { color: #94a3b8; }
     .editor .cur { display: inline-block; width: 8px; height: 1.15em; vertical-align: -.2em; background: var(--teal); animation: blink 1s steps(1) infinite; }
     .editor .console { border-top: 1px solid var(--line); padding: 10px 20px; font: 12.5px var(--mono); color: var(--teal); min-height: 40px; }
 
@@ -163,7 +163,7 @@
     .stat span { color: var(--muted); font-size: .88rem; }
     .points { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
     .points li { display: flex; gap: 14px; padding: 16px 18px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); color: var(--muted); transition: border-color .3s, transform .3s, color .3s; }
-    .points li:hover { border-color: rgba(139,92,246,.5); transform: translateX(6px); color: var(--text); }
+    .points li:hover { border-color: rgba(59,130,246,.5); transform: translateX(6px); color: var(--text); }
     .points li::before { content: "▹"; color: var(--teal); font-family: var(--mono); }
 
     /* Skills: orbit + cards */
@@ -172,10 +172,10 @@
     .orbit { position: relative; width: 100%; aspect-ratio: 1; max-width: 420px; margin: 0 auto; }
     .orbit .core {
       position: absolute; inset: 36%; border-radius: 50%; display: grid; place-items: center; text-align: center;
-      background: radial-gradient(circle at 30% 30%, #a78bfa, #6d28d9 60%, #3b0764); font-family: var(--display); font-weight: 700; font-size: 1.05rem; line-height: 1.2;
-      box-shadow: 0 0 60px rgba(139,92,246,.6), inset 0 0 20px rgba(255,255,255,.2); animation: pulse 3s ease-in-out infinite;
+      background: radial-gradient(circle at 30% 30%, #60a5fa, #1d4ed8 60%, #172554); font-family: var(--display); font-weight: 700; font-size: 1.05rem; line-height: 1.2;
+      box-shadow: 0 0 60px rgba(59,130,246,.6), inset 0 0 20px rgba(255,255,255,.2); animation: pulse 3s ease-in-out infinite;
     }
-    @keyframes pulse { 50% { box-shadow: 0 0 90px rgba(255,61,127,.55), inset 0 0 20px rgba(255,255,255,.2); } }
+    @keyframes pulse { 50% { box-shadow: 0 0 90px rgba(96,165,250,.55), inset 0 0 20px rgba(255,255,255,.2); } }
     .ring { position: absolute; border-radius: 50%; border: 1px dashed rgba(255,255,255,.14); animation: spin linear infinite; }
     .ring.r1 { inset: 20%; animation-duration: 22s; }
     .ring.r2 { inset: 6%; animation-duration: 34s; animation-direction: reverse; }
@@ -186,7 +186,7 @@
     }
     .ring .chip > b {
       position: absolute; left: 0; top: 0; translate: -50% -50%; padding: 6px 12px; border-radius: 999px;
-      background: #15122b; border: 1px solid var(--c, var(--violet)); color: var(--c, var(--violet));
+      background: #0f172a; border: 1px solid var(--c, var(--violet)); color: var(--c, var(--violet));
       box-shadow: 0 0 14px color-mix(in srgb, var(--c, var(--violet)) 35%, transparent);
     }
     .orbit { --R: 210px; }
@@ -235,7 +235,7 @@
     .timeline .rail i { position: absolute; inset: 0; background: linear-gradient(180deg, var(--violet), var(--pink), var(--amber)); transform-origin: top; transform: scaleY(var(--p, 0)); }
     .timeline .rail::after {
       content: ""; position: absolute; left: 50%; top: calc(var(--p, 0) * 100%); width: 14px; height: 14px; border-radius: 50%;
-      background: #fff; transform: translate(-50%, -50%); box-shadow: 0 0 0 5px rgba(255,61,127,.35), 0 0 22px var(--pink);
+      background: #fff; transform: translate(-50%, -50%); box-shadow: 0 0 0 5px rgba(96,165,250,.35), 0 0 22px var(--pink);
     }
     .job { position: relative; }
     .job::before {
@@ -246,7 +246,7 @@
     .job .tilt { padding: 28px 30px; }
     .job-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; }
     .job-head h3 { font-family: var(--display); font-size: 1.35rem; }
-    .date { font: 600 .8rem var(--mono); color: var(--teal); border: 1px solid rgba(45,212,191,.35); padding: 4px 10px; border-radius: 8px; white-space: nowrap; align-self: flex-start; }
+    .date { font: 600 .8rem var(--mono); color: var(--teal); border: 1px solid rgba(96,165,250,.35); padding: 4px 10px; border-radius: 8px; white-space: nowrap; align-self: flex-start; }
     .meta { color: var(--pink); font-size: .92rem; font-weight: 500; margin: 6px 0 16px; }
     .job ul { margin: 16px 0 0; padding: 0; list-style: none; color: var(--muted); }
     .job li { padding-left: 22px; position: relative; margin: 8px 0; }
@@ -260,7 +260,7 @@
     /* Contact */
     #contact { text-align: center; overflow: hidden; }
     #contact .blob { position: absolute; width: 600px; height: 600px; left: 50%; top: 50%; transform: translate(-50%, -50%); border-radius: 50%; filter: blur(80px); opacity: .45;
-      background: conic-gradient(from 0deg, var(--violet), var(--pink), var(--amber), var(--teal), var(--violet)); animation: spin 14s linear infinite; z-index: -1; }
+      background: radial-gradient(circle, rgba(59,130,246,.7), transparent 65%); z-index: -1; }
     #contact h2 { font-family: var(--display); font-size: clamp(2.4rem, 7vw, 5rem); letter-spacing: -.03em; }
     #contact p { color: var(--muted); max-width: 540px; margin: 18px auto 34px; font-size: 1.05rem; }
     #contact .cta { justify-content: center; }
@@ -280,11 +280,11 @@
     @media (max-width: 720px) {
       .wrap { padding: 0 16px; }
       .menu-btn { display: block; }
-      .nav nav { display: none; position: absolute; top: 66px; left: 0; right: 0; flex-direction: column; gap: 0; background: rgba(7,6,15,.97); border-bottom: 1px solid var(--line); }
+      .nav nav { display: none; position: absolute; top: 66px; left: 0; right: 0; flex-direction: column; gap: 0; background: rgba(6,8,13,.97); border-bottom: 1px solid var(--line); }
       .nav nav.open { display: flex; }
       .nav nav a { padding: 15px 16px; border-top: 1px solid var(--line); }
       section { padding: 80px 0; }
-      .hero::before { background: linear-gradient(180deg, rgba(7,6,15,.85), rgba(7,6,15,.95)), radial-gradient(500px 400px at 80% 10%, rgba(139,92,246,.35), transparent 60%); }
+      .hero::before { background: linear-gradient(180deg, rgba(6,8,13,.85), rgba(6,8,13,.95)), radial-gradient(500px 400px at 80% 10%, rgba(59,130,246,.35), transparent 60%); }
       .scroll-hint { display: none; }
       .timeline { padding-left: 32px; }
       .timeline .rail { left: 6px; }
@@ -299,6 +299,135 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .001s !important; animation-iteration-count: 1 !important; transition-duration: .001s !important; }
       html { scroll-behavior: auto; }
+    }
+    /* ---------- Play Zone ---------- */
+    #play { background: var(--bg-2); }
+    .play-intro { color: var(--muted); margin: -28px 0 32px; max-width: 560px; }
+    .play-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 22px; }
+    .play-tabs button {
+      font: 600 .9rem Inter, sans-serif; color: var(--muted); background: var(--surface); border: 1px solid var(--line);
+      padding: 10px 18px; border-radius: 12px; cursor: pointer; transition: all .25s;
+    }
+    .play-tabs button:hover { color: var(--text); border-color: rgba(96,165,250,.5); }
+    .play-tabs button.on { color: #fff; background: #1d4ed8; border-color: #3b82f6; box-shadow: 0 8px 24px rgba(59,130,246,.3); }
+    .game { display: none; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 26px; }
+    .game.on { display: block; animation: pop .45s cubic-bezier(.2,.8,.2,1); }
+    @keyframes pop { from { opacity: 0; transform: translateY(14px) scale(.98); } }
+    .hud { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px; margin-bottom: 20px; font: 600 .85rem var(--mono); color: var(--muted); }
+    .hud b { color: var(--text); font-size: 1.05rem; margin-left: 6px; }
+    .hud .btn { margin-left: auto; padding: 10px 18px; }
+    .hud .btn:disabled { opacity: .4; cursor: default; animation: none; box-shadow: none; }
+    .game-msg { min-height: 1.6em; margin-top: 16px; font: .9rem var(--mono); color: #93c5fd; text-align: center; }
+
+    /* Bug Smash */
+    .bug-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; user-select: none; }
+    .hole {
+      position: relative; height: 92px; border-radius: 14px; background: rgba(255,255,255,.03); border: 1px dashed var(--line);
+      display: grid; place-items: center; overflow: hidden; font: .72rem var(--mono); color: #475569;
+    }
+    .critter {
+      position: absolute; inset: 0; display: grid; place-items: center; font-size: 2.3rem; cursor: pointer;
+      transform: translateY(100%); transition: transform .18s ease-out; background: none; border: 0; padding: 0;
+    }
+    .critter.up { transform: none; }
+    .critter.hit { animation: squash .3s forwards; }
+    @keyframes squash { to { transform: scale(1.6, .2); opacity: 0; } }
+    .float-pt { position: absolute; font: 700 1rem var(--mono); color: #60a5fa; pointer-events: none; animation: floatUp .7s forwards; }
+    .float-pt.neg { color: #f87171; }
+    @keyframes floatUp { to { transform: translateY(-36px); opacity: 0; } }
+
+    /* Memory */
+    .mem-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; perspective: 900px; }
+    .mem { height: 96px; border: 0; padding: 0; background: none; cursor: pointer; }
+    .mem .in { position: relative; display: block; width: 100%; height: 100%; transition: transform .5s cubic-bezier(.2,.8,.2,1); transform-style: preserve-3d; }
+    .mem.open .in, .mem.done .in { transform: rotateY(180deg); }
+    .mem .f, .mem .b {
+      position: absolute; inset: 0; border-radius: 14px; display: grid; place-items: center; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+      font: 600 .95rem var(--mono);
+    }
+    .mem .f { background: rgba(255,255,255,.04); border: 1px solid var(--line); color: #475569; font-size: 1.4rem; }
+    .mem .b { transform: rotateY(180deg); background: #0f1d3a; border: 1px solid #3b82f6; color: #dbeafe; flex-direction: column; }
+    .mem .b span { font-size: 1.5rem; display: block; line-height: 1.2; }
+    .mem .b small { font-size: .78rem; }
+    .mem.done .b { background: #1d4ed8; box-shadow: 0 0 20px rgba(59,130,246,.45); }
+    .mem.shake .in { animation: shake .4s; }
+    @keyframes shake { 25% { transform: rotateY(180deg) translateX(-6px); } 75% { transform: rotateY(180deg) translateX(6px); } }
+
+    /* Speed type */
+    .type-word { text-align: center; font: 700 clamp(1.8rem, 5vw, 2.8rem) var(--mono); letter-spacing: .02em; margin: 10px 0 6px; min-height: 1.3em; }
+    .type-word .ok { color: #60a5fa; } .type-word .bad { color: #f87171; text-decoration: underline; } .type-word .rest { color: #475569; }
+    .type-next { text-align: center; font: .85rem var(--mono); color: #475569; margin-bottom: 18px; }
+    .type-input {
+      display: block; width: 100%; max-width: 420px; margin: 0 auto; padding: 14px 18px; border-radius: 12px; outline: none;
+      background: rgba(0,0,0,.35); border: 1px solid var(--line); color: var(--text); font: 1.1rem var(--mono); text-align: center;
+    }
+    .type-input:focus { border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59,130,246,.2); }
+    .type-input.flash { animation: okflash .3s; }
+    @keyframes okflash { 50% { border-color: #60a5fa; background: rgba(59,130,246,.18); } }
+
+    @media (max-width: 720px) {
+      .game { padding: 18px; }
+      .bug-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .hole { height: 78px; }
+      .mem-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .mem { height: 82px; }
+      .hud .btn { margin-left: 0; }
+    }
+    /* ---------- Beyond code ---------- */
+    #life { overflow: hidden; }
+    .life-grid { display: grid; grid-template-columns: 400px 1fr; gap: 64px; align-items: center; }
+    .stack { position: relative; width: 340px; height: 470px; margin: 0 auto; cursor: pointer; }
+    .polaroid {
+      position: absolute; inset: 0; margin: 0; background: #f8fafc; padding: 12px 12px 52px; border-radius: 6px;
+      box-shadow: 0 24px 60px rgba(0,0,0,.55); transition: transform .7s cubic-bezier(.2,.8,.2,1);
+    }
+    .polaroid img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 2px; }
+    .polaroid figcaption { position: absolute; left: 0; right: 0; bottom: 12px; text-align: center; font: 600 1.35rem "Caveat", cursive; color: #334155; }
+    .polaroid.s0 { z-index: 3; transform: rotate(-3deg); }
+    .polaroid.s1 { z-index: 2; transform: translate(34px, 12px) rotate(6deg); }
+    .polaroid.s2 { z-index: 1; transform: translate(-34px, 20px) rotate(-10deg); }
+    .polaroid.out { z-index: 4; transform: translate(115%, -6%) rotate(18deg); }
+    .stack:hover .polaroid.s0 { transform: rotate(0deg) scale(1.02); }
+    .stack-hint { text-align: center; margin-top: 52px; font: .78rem var(--mono); color: var(--muted); }
+
+    .life-text .about-intro { margin: 0 0 26px; }
+    .travel { position: relative; overflow: hidden; padding: 38px 26px 26px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line); margin-bottom: 18px; }
+    .travel h3, .mini h3 { font-family: var(--display); font-size: 1.15rem; margin-bottom: 18px; }
+    .plane { position: absolute; top: 6px; font-size: 1rem; animation: fly 11s linear infinite; }
+    @keyframes fly { 0% { left: -8%; transform: translateY(0) rotate(0); } 25% { transform: translateY(-6px) rotate(-4deg); } 50% { transform: translateY(4px) rotate(3deg); } 75% { transform: translateY(-4px) rotate(-2deg); } 100% { left: 106%; transform: translateY(0) rotate(0); } }
+    .stops { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+    .stop {
+      display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 999px; font-weight: 500; font-size: .92rem;
+      background: rgba(59,130,246,.1); border: 1px solid rgba(96,165,250,.3); color: var(--text); transition: transform .25s, background .25s;
+    }
+    .stop i { font-style: normal; display: inline-block; }
+    .stop:hover { transform: translateY(-3px); background: rgba(59,130,246,.22); }
+    .stop:hover i { animation: bounce .6s; }
+    @keyframes bounce { 30% { transform: translateY(-6px); } 60% { transform: translateY(1px); } }
+    .js .stop { opacity: 0; }
+    .js .in .stop { animation: pinIn .55s cubic-bezier(.2,.8,.2,1) calc(var(--i) * .12s + .2s) both; }
+    @keyframes pinIn { from { opacity: 0; transform: translateY(-18px) scale(.6); } to { opacity: 1; transform: none; } }
+    .mini-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .mini { padding: 24px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line); }
+    .mini h3 { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+    .mini p { margin: 0; color: var(--muted); font-size: .95rem; }
+    .mini .icon { font-size: 1.5rem; display: inline-block; }
+    .mini:hover .icon.book { animation: flipBook .8s; }
+    @keyframes flipBook { 50% { transform: rotateY(180deg) scale(1.2); } }
+    .mini:hover .icon.heart { animation: beat .8s; }
+    @keyframes beat { 25%, 75% { transform: scale(1.3); } 50% { transform: scale(1); } }
+
+    @media (max-width: 960px) {
+      .life-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+    @media (max-width: 720px) {
+      .stack { width: 250px; height: 350px; }
+      .polaroid { padding: 9px 9px 42px; }
+      .polaroid figcaption { font-size: 1.1rem; bottom: 9px; }
+      .polaroid.s1 { transform: translate(22px, 10px) rotate(6deg); }
+      .polaroid.s2 { transform: translate(-22px, 16px) rotate(-10deg); }
+      .mini-row { grid-template-columns: 1fr; }
+      .travel, .mini { padding: 20px; } .travel { padding-top: 34px; }
     }
   </style>
 </head>
@@ -315,6 +444,8 @@
         <a href="#skills">Skills</a>
         <a href="#certifications">Certifications</a>
         <a href="#experience">Experience</a>
+        <a href="#life">Life</a>
+        <a href="#play">Play</a>
         <a href="#contact">Contact</a>
       </nav>
       <button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
@@ -397,33 +528,33 @@
         <div class="skills-grid">
           <div class="orbit reveal" aria-hidden="true">
             <div class="ring r1">
-              <span class="chip" style="--a:0deg;--c:#c084fc"><b>Apex</b></span>
-              <span class="chip" style="--a:120deg;--c:#5eead4"><b>LWC</b></span>
-              <span class="chip" style="--a:240deg;--c:#fbbf24"><b>Flows</b></span>
+              <span class="chip" style="--a:0deg;--c:#60a5fa"><b>Apex</b></span>
+              <span class="chip" style="--a:120deg;--c:#60a5fa"><b>LWC</b></span>
+              <span class="chip" style="--a:240deg;--c:#60a5fa"><b>Flows</b></span>
             </div>
             <div class="ring r2">
-              <span class="chip" style="--a:30deg;--c:#ff7aa8"><b>Price Rules</b></span>
-              <span class="chip" style="--a:120deg;--c:#5eead4"><b>QCP</b></span>
-              <span class="chip" style="--a:210deg;--c:#c084fc"><b>Q2C</b></span>
-              <span class="chip" style="--a:300deg;--c:#fbbf24"><b>CAR</b></span>
+              <span class="chip" style="--a:30deg;--c:#60a5fa"><b>Price Rules</b></span>
+              <span class="chip" style="--a:120deg;--c:#60a5fa"><b>QCP</b></span>
+              <span class="chip" style="--a:210deg;--c:#60a5fa"><b>Q2C</b></span>
+              <span class="chip" style="--a:300deg;--c:#60a5fa"><b>CAR</b></span>
             </div>
             <div class="ring r3">
-              <span class="chip" style="--a:70deg;--c:#5eead4"><b>MuleSoft</b></span>
-              <span class="chip" style="--a:190deg;--c:#ff7aa8"><b>SAP</b></span>
-              <span class="chip" style="--a:310deg;--c:#c084fc"><b>AWS</b></span>
+              <span class="chip" style="--a:70deg;--c:#60a5fa"><b>MuleSoft</b></span>
+              <span class="chip" style="--a:190deg;--c:#60a5fa"><b>SAP</b></span>
+              <span class="chip" style="--a:310deg;--c:#60a5fa"><b>AWS</b></span>
             </div>
             <div class="core">Salesforce<br>CPQ</div>
           </div>
           <div class="skill-cards">
-            <div class="tilt reveal" style="--c:#c084fc">
+            <div class="tilt reveal" style="--c:#60a5fa">
               <h3><i></i>Salesforce CPQ</h3>
               <div class="tags"><span class="tag">Salesforce CPQ</span><span class="tag">Quote-to-Cash</span><span class="tag">Product Rules</span><span class="tag">Price Rules</span><span class="tag">QCP</span><span class="tag">Bundles</span><span class="tag">CAR</span><span class="tag">Renewals</span><span class="tag">Approvals</span><span class="tag">Salesforce Admin</span></div>
             </div>
-            <div class="tilt reveal" style="--c:#ff7aa8;--d:.1s">
+            <div class="tilt reveal" style="--c:#60a5fa;--d:.1s">
               <h3><i></i>Development</h3>
               <div class="tags"><span class="tag">Apex</span><span class="tag">LWC</span><span class="tag">Visualforce</span><span class="tag">SOQL</span><span class="tag">SOSL</span><span class="tag">JavaScript</span><span class="tag">Salesforce Flows</span><span class="tag">Batch Apex</span><span class="tag">Queueables</span></div>
             </div>
-            <div class="tilt reveal" style="--c:#5eead4;--d:.2s">
+            <div class="tilt reveal" style="--c:#60a5fa;--d:.2s">
               <h3><i></i>Integration &amp; DevOps</h3>
               <div class="tags"><span class="tag">MuleSoft</span><span class="tag">SAP</span><span class="tag">AWS EventBridge</span><span class="tag">REST APIs</span><span class="tag">SOAP APIs</span><span class="tag">Copado</span><span class="tag">Gearset</span><span class="tag">Git</span><span class="tag">VS Code</span><span class="tag">Cursor IDE</span></div>
             </div>
@@ -437,23 +568,23 @@
       <div class="wrap">
         <div class="sec-head reveal"><div class="sec-num">03 // credentials</div><h2 class="scramble">Certifications</h2></div>
         <div class="certs">
-          <div class="flip reveal" tabindex="0" style="--g:linear-gradient(135deg,#7c3aed,#c026d3)"><div class="inner">
+          <div class="flip reveal" tabindex="0" style="--g:linear-gradient(135deg,#1e40af,#3b82f6)"><div class="inner">
             <div class="face"><div class="badge">★</div><div><h3>CPQ Specialist</h3><div class="hint">hover to flip ↻</div></div></div>
             <div class="face back"><div><b>CPQ</b><small>Salesforce Certified<br>CPQ Specialist</small></div></div>
           </div></div>
-          <div class="flip reveal" tabindex="0" style="--d:.08s;--g:linear-gradient(135deg,#ff3d7f,#f97316)"><div class="inner">
+          <div class="flip reveal" tabindex="0" style="--d:.08s;--g:linear-gradient(135deg,#1e40af,#3b82f6)"><div class="inner">
             <div class="face"><div class="badge">⌘</div><div><h3>Platform Developer I</h3><div class="hint">hover to flip ↻</div></div></div>
             <div class="face back"><div><b>PD1</b><small>Salesforce Platform<br>Developer I</small></div></div>
           </div></div>
-          <div class="flip reveal" tabindex="0" style="--d:.16s;--g:linear-gradient(135deg,#0ea5e9,#6366f1)"><div class="inner">
+          <div class="flip reveal" tabindex="0" style="--d:.16s;--g:linear-gradient(135deg,#1e40af,#3b82f6)"><div class="inner">
             <div class="face"><div class="badge">⚙</div><div><h3>Administrator</h3><div class="hint">hover to flip ↻</div></div></div>
             <div class="face back"><div><b>ADM</b><small>Salesforce Certified<br>Administrator</small></div></div>
           </div></div>
-          <div class="flip reveal" tabindex="0" style="--d:.24s;--g:linear-gradient(135deg,#10b981,#0d9488)"><div class="inner">
+          <div class="flip reveal" tabindex="0" style="--d:.24s;--g:linear-gradient(135deg,#1e40af,#3b82f6)"><div class="inner">
             <div class="face"><div class="badge">◆</div><div><h3>Associate</h3><div class="hint">hover to flip ↻</div></div></div>
             <div class="face back"><div><b>ASC</b><small>Salesforce Certified<br>Associate</small></div></div>
           </div></div>
-          <div class="flip reveal" tabindex="0" style="--d:.32s;--g:linear-gradient(135deg,#f59e0b,#ff3d7f)"><div class="inner">
+          <div class="flip reveal" tabindex="0" style="--d:.32s;--g:linear-gradient(135deg,#1e40af,#3b82f6)"><div class="inner">
             <div class="face"><div class="badge">✦</div><div><h3>AI Associate</h3><div class="hint">hover to flip ↻</div></div></div>
             <div class="face back"><div><b>AI</b><small>Salesforce<br>AI Associate</small></div></div>
           </div></div>
@@ -471,7 +602,7 @@
           <article class="job reveal"><div class="tilt">
             <div class="job-head"><h3>Salesforce CPQ Implementation</h3><span class="date">Current</span></div>
             <div class="meta">Salesforce CPQ Developer · Team of 30+</div>
-            <div class="tags" style="--c:#c084fc"><span class="tag">Salesforce CPQ</span><span class="tag">Apex</span><span class="tag">MuleSoft</span><span class="tag">SAP</span><span class="tag">Custom Renewals</span><span class="tag">REST APIs</span><span class="tag">Flows</span><span class="tag">Copado</span></div>
+            <div class="tags" style="--c:#60a5fa"><span class="tag">Salesforce CPQ</span><span class="tag">Apex</span><span class="tag">MuleSoft</span><span class="tag">SAP</span><span class="tag">Custom Renewals</span><span class="tag">REST APIs</span><span class="tag">Flows</span><span class="tag">Copado</span></div>
             <ul>
               <li>Designed and developed custom renewal functionality to automate enterprise contract renewals and subscription lifecycle management.</li>
               <li>Implemented Salesforce–MuleSoft–SAP integrations to synchronize quotes, contracts, pricing and order data.</li>
@@ -489,7 +620,7 @@
           <article class="job reveal"><div class="tilt">
             <div class="job-head"><h3>Salesforce CPQ Implementation</h3><span class="date">Mar 2025 – Dec 2025</span></div>
             <div class="meta">Salesforce CPQ Consultant · Team of 30+</div>
-            <div class="tags" style="--c:#ff7aa8"><span class="tag">Product Rules</span><span class="tag">Price Rules</span><span class="tag">CAR</span><span class="tag">Apex</span><span class="tag">Q2C</span><span class="tag">Flows</span><span class="tag">Gearset</span></div>
+            <div class="tags" style="--c:#60a5fa"><span class="tag">Product Rules</span><span class="tag">Price Rules</span><span class="tag">CAR</span><span class="tag">Apex</span><span class="tag">Q2C</span><span class="tag">Flows</span><span class="tag">Gearset</span></div>
             <ul>
               <li>Configured Product Rules, Price Rules, Bundles, Nested Bundles and approval workflows.</li>
               <li>Supported Configure, Amend, Renew (CAR) and subscription management processes.</li>
@@ -506,7 +637,7 @@
           <article class="job reveal"><div class="tilt">
             <div class="job-head"><h3>Salesforce CPQ Development</h3><span class="date">Jul 2022 – Feb 2025</span></div>
             <div class="meta">Salesforce CPQ Specialist · Team of 30+</div>
-            <div class="tags" style="--c:#5eead4"><span class="tag">Salesforce CPQ</span><span class="tag">Apex</span><span class="tag">AWS EventBridge</span><span class="tag">REST APIs</span><span class="tag">Named Credentials</span><span class="tag">QCP</span><span class="tag">Flows</span></div>
+            <div class="tags" style="--c:#60a5fa"><span class="tag">Salesforce CPQ</span><span class="tag">Apex</span><span class="tag">AWS EventBridge</span><span class="tag">REST APIs</span><span class="tag">Named Credentials</span><span class="tag">QCP</span><span class="tag">Flows</span></div>
             <ul>
               <li>Developed and administered CPQ solutions supporting enterprise Quote-to-Cash processes.</li>
               <li>Customized the Quote Calculator Plugin (QCP) for dynamic pricing and business-specific calculations.</li>
@@ -524,7 +655,7 @@
           <article class="job reveal"><div class="tilt">
             <div class="job-head"><h3>Salesforce CPQ Development</h3><span class="date">Jul 2021 – Jul 2022</span></div>
             <div class="meta">Salesforce CPQ Developer · Team of 4</div>
-            <div class="tags" style="--c:#fbbf24"><span class="tag">Salesforce CPQ</span><span class="tag">Apex</span><span class="tag">LWC</span><span class="tag">Visualforce</span><span class="tag">JavaScript</span><span class="tag">Q2C</span></div>
+            <div class="tags" style="--c:#60a5fa"><span class="tag">Salesforce CPQ</span><span class="tag">Apex</span><span class="tag">LWC</span><span class="tag">Visualforce</span><span class="tag">JavaScript</span><span class="tag">Q2C</span></div>
             <ul>
               <li>Developed CPQ customizations using Apex, Lightning Web Components and Visualforce.</li>
               <li>Implemented subscription lifecycle management: renewals, amendments, cancellations and usage-based pricing.</li>
@@ -539,11 +670,97 @@
       </div>
     </section>
 
+    <!-- BEYOND CODE -->
+    <section id="life">
+      <div class="wrap">
+        <div class="sec-head reveal"><div class="sec-num">05 // beyond code</div><h2 class="scramble">Life outside Salesforce</h2></div>
+        <div class="life-grid">
+          <div class="reveal">
+            <div class="stack" id="stack" role="button" tabindex="0" aria-label="Photo stack, press to see the next photo">
+              <figure class="polaroid"><img src="pooja-1.jpg" alt="Pooja smiling in a white beanie on a sunny hill-station street" loading="lazy"><figcaption>sunny hill-station days ☀️</figcaption></figure>
+              <figure class="polaroid"><img src="pooja-2.jpg" alt="Pooja in pink earmuffs outside a cosy cafe at night" loading="lazy"><figcaption>cosy café nights ☕</figcaption></figure>
+              <figure class="polaroid"><img src="pooja-3.jpg" alt="Pooja on old stone steps in front of a stone church under a blue sky" loading="lazy"><figcaption>old stairs, new stories ⛰️</figcaption></figure>
+            </div>
+            <div class="stack-hint">click the photos to shuffle ↻</div>
+          </div>
+          <div class="life-text">
+            <p class="about-intro reveal">When I'm not configuring quotes, you'll find me <em>on the road</em> somewhere in the hills
+              or <em>lost in a book</em> about how the mind works.</p>
+            <div class="travel reveal">
+              <span class="plane" aria-hidden="true">✈️</span>
+              <h3>Places that have my heart</h3>
+              <ul class="stops">
+                <li class="stop" style="--i:0"><i>📍</i>Landour</li>
+                <li class="stop" style="--i:1"><i>📍</i>Mussoorie</li>
+                <li class="stop" style="--i:2"><i>📍</i>Shimla</li>
+                <li class="stop" style="--i:3"><i>📍</i>Manali</li>
+                <li class="stop" style="--i:4"><i>📍</i>Goa</li>
+                <li class="stop" style="--i:5"><i>📍</i>Rishikesh</li>
+                <li class="stop" style="--i:6"><i>📍</i>Vrindavan</li>
+              </ul>
+            </div>
+            <div class="mini-row">
+              <div class="mini reveal">
+                <h3><span class="icon book">📚</span>Psychology reader</h3>
+                <p>I love reading psychology books. I'm curious about why we think, feel and decide the way we do, and that curiosity helps me understand people, not just requirements.</p>
+              </div>
+              <div class="mini reveal" style="--d:.1s">
+                <h3><span class="icon heart">🎬</span>Inspired by Dear Zindagi</h3>
+                <p>A film that taught me it's okay to pause, talk things through and be gentle with yourself. I try to bring that same calm into life and work.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLAY ZONE -->
+    <section id="play">
+      <div class="wrap">
+        <div class="sec-head reveal"><div class="sec-num">06 // play</div><h2 class="scramble">Play zone</h2></div>
+        <p class="play-intro reveal">Take a break. Three tiny games with a Salesforce twist. Your best scores are saved in this browser.</p>
+        <div class="play-tabs reveal" role="tablist">
+          <button class="on" data-game="bugs" role="tab">🐞 Bug Smash</button>
+          <button data-game="memory" role="tab">🧠 Memory Match</button>
+          <button data-game="type" role="tab">⌨️ Apex Speed Type</button>
+        </div>
+
+        <div class="game on reveal" id="game-bugs">
+          <div class="hud">
+            <span>Score<b id="bugScore">0</b></span><span>Time<b id="bugTime">20</b>s</span><span>Best<b id="bugBest">0</b></span>
+            <button class="btn primary" id="bugStart">Start</button>
+          </div>
+          <div class="bug-grid" id="bugGrid"></div>
+          <div class="game-msg" id="bugMsg">Squash the 🐞 bugs before they ship. Grab ☕ for +3. Don't hit ✅ passing tests (−2).</div>
+        </div>
+
+        <div class="game" id="game-memory">
+          <div class="hud">
+            <span>Moves<b id="memMoves">0</b></span><span>Pairs<b id="memPairs">0</b>/6</span><span>Best<b id="memBest">–</b></span>
+            <button class="btn primary" id="memStart">Shuffle</button>
+          </div>
+          <div class="mem-grid" id="memGrid"></div>
+          <div class="game-msg" id="memMsg">Flip two cards at a time and match all six Salesforce pairs.</div>
+        </div>
+
+        <div class="game" id="game-type">
+          <div class="hud">
+            <span>Words<b id="typeScore">0</b></span><span>Time<b id="typeTime">30</b>s</span><span>Best<b id="typeBest">0</b></span>
+            <button class="btn primary" id="typeStart">Start</button>
+          </div>
+          <div class="type-word" id="typeWord"><span class="rest">press start</span></div>
+          <div class="type-next" id="typeNext">&nbsp;</div>
+          <input class="type-input" id="typeInput" placeholder="type here…" autocomplete="off" autocapitalize="off" spellcheck="false" disabled>
+          <div class="game-msg" id="typeMsg">Type each Salesforce keyword exactly. 30 seconds. Go!</div>
+        </div>
+      </div>
+    </section>
+
     <!-- CONTACT -->
     <section id="contact">
       <div class="blob"></div>
       <div class="wrap">
-        <div class="sec-num reveal">05 // contact</div>
+        <div class="sec-num reveal">07 // contact</div>
         <h2 class="reveal">Let's build <span class="grad-text">something</span><br>awesome.</h2>
         <p class="reveal">Open to Salesforce CPQ, Quote-to-Cash and integration opportunities. Reach out to discuss a project or role.</p>
         <div class="cta reveal" id="contactLinks"></div>
@@ -697,11 +914,11 @@
           const a = pts[i];
           for (let j = i + 1; j < pts.length; j++) {
             const b = pts[j], d = Math.hypot(a.x - b.x, a.y - b.y);
-            if (d < 120) { ctx.strokeStyle = `rgba(167,139,250,${(1 - d / 120) * .35})`; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+            if (d < 120) { ctx.strokeStyle = `rgba(96,165,250,${(1 - d / 120) * .35})`; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
           }
           const md = Math.hypot(a.x - mouse.x, a.y - mouse.y);
-          if (md < 200) { ctx.strokeStyle = `rgba(255,61,127,${(1 - md / 200) * .6})`; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke(); }
-          ctx.fillStyle = i % 3 ? "rgba(255,255,255,.75)" : "#2dd4bf";
+          if (md < 200) { ctx.strokeStyle = `rgba(96,165,250,${(1 - md / 200) * .6})`; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke(); }
+          ctx.fillStyle = i % 3 ? "rgba(255,255,255,.6)" : "#60a5fa";
           ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2); ctx.fill();
         }
       };
@@ -809,6 +1026,165 @@
     const menu = $("#menu");
     $("#menuBtn").addEventListener("click", () => menu.classList.toggle("open"));
     menu.addEventListener("click", e => { if (e.target.tagName === "A") menu.classList.remove("open"); });
+
+    // ---------- Photo stack ----------
+    (() => {
+      const stack = $("#stack"), pics = $$(".polaroid", stack);
+      let order = pics.map((_, i) => i), busy = false;
+      const apply = () => order.forEach((idx, pos) => { pics[idx].className = "polaroid s" + pos; });
+      const next = () => {
+        if (busy) return; busy = true;
+        pics[order[0]].classList.add("out");
+        setTimeout(() => { order.push(order.shift()); apply(); busy = false; }, reduce ? 0 : 420);
+      };
+      apply();
+      stack.addEventListener("click", next);
+      stack.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); next(); } });
+      if (!reduce) {
+        let hover = false, seen = false;
+        stack.addEventListener("mouseenter", () => hover = true);
+        stack.addEventListener("mouseleave", () => hover = false);
+        new IntersectionObserver(([e]) => { seen = e.isIntersecting; }).observe(stack);
+        setInterval(() => { if (seen && !hover && !document.hidden) next(); }, 4000);
+      }
+    })();
+
+    // ---------- Play Zone ----------
+    const store = {
+      get: k => { try { return localStorage.getItem("pz-" + k); } catch (e) { return null; } },
+      set: (k, v) => { try { localStorage.setItem("pz-" + k, v); } catch (e) {} }
+    };
+    $$(".play-tabs button").forEach(b => b.addEventListener("click", () => {
+      $$(".play-tabs button").forEach(x => x.classList.toggle("on", x === b));
+      $$(".game").forEach(g => g.classList.toggle("on", g.id === "game-" + b.dataset.game));
+    }));
+
+    // Bug Smash
+    (() => {
+      const grid = $("#bugGrid"), scoreEl = $("#bugScore"), timeEl = $("#bugTime"), bestEl = $("#bugBest"), msg = $("#bugMsg"), startBtn = $("#bugStart");
+      const labels = ["Quote.cls", "PriceRule", "QCP.js", "Trigger", "Batch.cls", "LWC", "Flow", "SOQL", "Renewal", "Approval", "Bundle", "Order"];
+      const holes = labels.map(l => {
+        const h = document.createElement("div"); h.className = "hole"; h.textContent = l;
+        const c = document.createElement("button"); c.className = "critter"; c.type = "button"; c.setAttribute("aria-label", "target");
+        h.appendChild(c); grid.appendChild(h); return { h, c, timer: 0, kind: "" };
+      });
+      let score = 0, left = 0, playing = false, spawnT = 0, clockT = 0;
+      bestEl.textContent = store.get("bugs") || 0;
+      const pop = (h, text, neg) => { const f = document.createElement("span"); f.className = "float-pt" + (neg ? " neg" : ""); f.textContent = text; h.appendChild(f); setTimeout(() => f.remove(), 700); };
+      const hide = o => { o.c.classList.remove("up"); o.kind = ""; clearTimeout(o.timer); };
+      const spawn = () => {
+        if (!playing) return;
+        const free = holes.filter(o => !o.kind);
+        if (free.length) {
+          const o = free[Math.floor(Math.random() * free.length)], r = Math.random();
+          o.kind = r < .12 ? "coffee" : r < .27 ? "test" : "bug";
+          o.c.textContent = { bug: "🐞", coffee: "☕", test: "✅" }[o.kind];
+          o.c.classList.remove("hit"); o.c.classList.add("up");
+          const stay = Math.max(520, 1100 - (20 - left) * 25);
+          o.timer = setTimeout(() => hide(o), stay);
+        }
+        spawnT = setTimeout(spawn, Math.max(330, 650 - (20 - left) * 15));
+      };
+      holes.forEach(o => o.c.addEventListener("click", () => {
+        if (!playing || !o.kind) return;
+        const pts = { bug: 1, coffee: 3, test: -2 }[o.kind];
+        score = Math.max(0, score + pts); scoreEl.textContent = score;
+        pop(o.h, (pts > 0 ? "+" : "") + pts, pts < 0);
+        o.c.classList.add("hit"); o.kind = ""; clearTimeout(o.timer);
+        setTimeout(() => o.c.classList.remove("up", "hit"), 300);
+      }));
+      const end = () => {
+        playing = false; clearTimeout(spawnT); clearInterval(clockT); holes.forEach(hide);
+        const best = +(store.get("bugs") || 0);
+        if (score > best) { store.set("bugs", score); bestEl.textContent = score; msg.textContent = `🏆 New best: ${score} bugs squashed! Deploy approved.`; }
+        else msg.textContent = `Time! You squashed ${score}. Best is ${best}. Try again?`;
+        startBtn.textContent = "Play again"; startBtn.disabled = false;
+      };
+      startBtn.addEventListener("click", () => {
+        score = 0; left = 20; playing = true; scoreEl.textContent = 0; timeEl.textContent = 20;
+        msg.textContent = "Go go go! 🐞"; startBtn.disabled = true;
+        clockT = setInterval(() => { left--; timeEl.textContent = left; if (left <= 0) end(); }, 1000);
+        spawn();
+      });
+    })();
+
+    // Memory Match
+    (() => {
+      const grid = $("#memGrid"), movesEl = $("#memMoves"), pairsEl = $("#memPairs"), bestEl = $("#memBest"), msg = $("#memMsg");
+      const items = [["⚡", "Apex"], ["🧩", "LWC"], ["🧮", "QCP"], ["🔁", "Renew"], ["🔎", "SOQL"], ["🌊", "Flow"]];
+      let open = [], moves = 0, pairs = 0, lock = false;
+      bestEl.textContent = store.get("memory") || "–";
+      const deal = () => {
+        grid.innerHTML = ""; open = []; moves = 0; pairs = 0; lock = false;
+        movesEl.textContent = 0; pairsEl.textContent = 0; msg.textContent = "Flip two cards at a time and match all six Salesforce pairs.";
+        const deck = [...items, ...items].map(v => [Math.random(), v]).sort((a, b) => a[0] - b[0]).map(x => x[1]);
+        deck.forEach(([icon, name]) => {
+          const c = document.createElement("button"); c.className = "mem"; c.type = "button"; c.dataset.k = name;
+          c.setAttribute("aria-label", "hidden card");
+          c.innerHTML = `<span class="in"><span class="f">{ }</span><span class="b"><span>${icon}</span><small>${name}</small></span></span>`;
+          c.addEventListener("click", () => flip(c)); grid.appendChild(c);
+        });
+      };
+      const flip = c => {
+        if (lock || c.classList.contains("open") || c.classList.contains("done")) return;
+        c.classList.add("open"); c.setAttribute("aria-label", c.dataset.k); open.push(c);
+        if (open.length < 2) return;
+        moves++; movesEl.textContent = moves;
+        const [a, b] = open;
+        if (a.dataset.k === b.dataset.k) {
+          a.classList.add("done"); b.classList.add("done"); open = []; pairs++; pairsEl.textContent = pairs;
+          if (pairs === items.length) {
+            const best = +(store.get("memory") || 0);
+            if (!best || moves < best) { store.set("memory", moves); bestEl.textContent = moves; msg.textContent = `🏆 New record: all pairs in ${moves} moves!`; }
+            else msg.textContent = `Solved in ${moves} moves. Your record is ${best}.`;
+          }
+        } else {
+          lock = true;
+          setTimeout(() => { a.classList.add("shake"); b.classList.add("shake"); }, 450);
+          setTimeout(() => { [a, b].forEach(x => { x.classList.remove("open", "shake"); x.setAttribute("aria-label", "hidden card"); }); open = []; lock = false; }, 950);
+        }
+      };
+      $("#memStart").addEventListener("click", deal);
+      deal();
+    })();
+
+    // Apex Speed Type
+    (() => {
+      const words = ["apex", "trigger", "soql", "sosl", "quote", "renewal", "amendment", "bundle", "pricerule", "productrule", "lwc", "flow",
+        "batchable", "queueable", "contract", "order", "opportunity", "discount", "subscription", "approval", "mulesoft", "visualforce", "deploy", "sandbox"];
+      const wordEl = $("#typeWord"), nextEl = $("#typeNext"), input = $("#typeInput"), scoreEl = $("#typeScore"), timeEl = $("#typeTime"), bestEl = $("#typeBest"), msg = $("#typeMsg"), startBtn = $("#typeStart");
+      let cur = "", next = "", score = 0, left = 0, clockT = 0, playing = false;
+      bestEl.textContent = store.get("type") || 0;
+      const pick = () => words[Math.floor(Math.random() * words.length)];
+      const render = () => {
+        const v = input.value.toLowerCase(); let i = 0;
+        while (i < v.length && v[i] === cur[i]) i++;
+        const bad = v.length > i ? cur.slice(i, i + 1) : "";
+        wordEl.innerHTML = `<span class="ok">${cur.slice(0, i)}</span>${bad ? `<span class="bad">${bad}</span>` : ""}<span class="rest">${cur.slice(i + bad.length)}</span>`;
+        nextEl.textContent = "next: " + next;
+      };
+      const advance = () => { cur = next || pick(); next = pick(); while (next === cur) next = pick(); input.value = ""; render(); };
+      input.addEventListener("input", () => {
+        if (!playing) return;
+        if (input.value.trim().toLowerCase() === cur) {
+          score++; scoreEl.textContent = score; input.classList.remove("flash"); void input.offsetWidth; input.classList.add("flash"); advance();
+        } else render();
+      });
+      const end = () => {
+        playing = false; clearInterval(clockT); input.disabled = true; input.blur();
+        const best = +(store.get("type") || 0), wpm = score * 2;
+        if (score > best) { store.set("type", score); bestEl.textContent = score; msg.textContent = `🏆 New best: ${score} words (~${wpm} per minute)!`; }
+        else msg.textContent = `${score} words (~${wpm} per minute). Best is ${best}.`;
+        wordEl.innerHTML = '<span class="rest">time!</span>'; nextEl.innerHTML = "&nbsp;";
+        startBtn.textContent = "Play again"; startBtn.disabled = false;
+      };
+      startBtn.addEventListener("click", () => {
+        score = 0; left = 30; playing = true; next = ""; scoreEl.textContent = 0; timeEl.textContent = 30;
+        input.disabled = false; startBtn.disabled = true; msg.textContent = "Type the highlighted word…";
+        advance(); input.focus();
+        clockT = setInterval(() => { left--; timeEl.textContent = left; if (left <= 0) end(); }, 1000);
+      });
+    })();
 
     // ---------- Start ----------
     particles();

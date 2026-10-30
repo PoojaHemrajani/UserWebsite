@@ -1,88 +1,818 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f8ff;
-            color: #333;
-        }
-        .container {
-            text-align: center;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
-        }
-        input {
-            padding: 10px;
-            font-size: 16px;
-            margin-bottom: 10px;
-            width: 80%;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .quote {
-            margin-top: 20px;
-            font-style: italic;
-            color: #555;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pooja Hemrajani | Salesforce CPQ Developer</title>
+  <meta name="description" content="Pooja Hemrajani, Salesforce CPQ Developer with 5+ years of experience in CPQ, Quote-to-Cash, Apex, LWC and enterprise integrations.">
+  <script>document.documentElement.classList.add("js");</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07060f;
+      --bg-2: #0e0c1d;
+      --surface: rgba(255,255,255,.04);
+      --line: rgba(255,255,255,.09);
+      --text: #f1efff;
+      --muted: #a7a3c7;
+      --violet: #8b5cf6;
+      --pink: #ff3d7f;
+      --teal: #2dd4bf;
+      --amber: #fbbf24;
+      --grad: linear-gradient(110deg, #8b5cf6, #ff3d7f 55%, #fbbf24);
+      --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+      --display: "Space Grotesk", Inter, system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text); overflow-x: hidden;
+      font: 16px/1.65 Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    h1, h2, h3 { margin: 0; line-height: 1.15; }
+    .grad-text { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+    /* ---------- Boot loader ---------- */
+    #boot {
+      position: fixed; inset: 0; z-index: 100; background: var(--bg);
+      display: grid; place-items: center; font-family: var(--mono); color: var(--teal);
+      transition: opacity .6s ease, visibility .6s;
+    }
+    #boot.done { opacity: 0; visibility: hidden; }
+    #boot .box { width: min(360px, 80vw); }
+    #boot .lines { font-size: .85rem; min-height: 5.5em; white-space: pre; color: var(--muted); }
+    #boot .lines b { color: var(--teal); font-weight: 400; }
+    #boot .bar { height: 3px; background: var(--line); border-radius: 3px; overflow: hidden; margin-top: 14px; }
+    #boot .bar i { display: block; height: 100%; width: 0; background: var(--grad); transition: width .25s ease; }
+
+    /* ---------- Scroll progress + cursor ---------- */
+    #progress { position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 60; background: var(--grad); transform-origin: 0 50%; transform: scaleX(0); }
+    #cursor-glow {
+      position: fixed; z-index: 1; width: 480px; height: 480px; border-radius: 50%; pointer-events: none;
+      background: radial-gradient(circle, rgba(139,92,246,.16), transparent 60%);
+      transform: translate(-50%, -50%); left: -999px; top: -999px; transition: opacity .3s;
+    }
+    #cursor-dot {
+      position: fixed; z-index: 70; width: 10px; height: 10px; border-radius: 50%; pointer-events: none;
+      background: var(--pink); transform: translate(-50%, -50%); left: -99px; top: -99px;
+      box-shadow: 0 0 14px var(--pink); transition: width .2s, height .2s, background .2s;
+    }
+    #cursor-dot.big { width: 42px; height: 42px; background: rgba(255,61,127,.18); box-shadow: none; border: 1px solid var(--pink); }
+    @media (pointer: coarse) { #cursor-glow, #cursor-dot { display: none; } }
+
+    /* ---------- Nav ---------- */
+    header.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; transition: background .3s, border-color .3s; border-bottom: 1px solid transparent; }
+    header.nav.scrolled { background: rgba(7,6,15,.75); backdrop-filter: blur(12px); border-color: var(--line); }
+    .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 66px; }
+    .brand { font-family: var(--mono); font-weight: 600; font-size: .95rem; }
+    .brand .tag-open, .brand .tag-close { color: var(--pink); }
+    .nav nav { display: flex; gap: 26px; }
+    .nav nav a { font-size: .9rem; color: var(--muted); position: relative; padding: 4px 0; }
+    .nav nav a::after { content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: var(--grad); transform: scaleX(0); transform-origin: right; transition: transform .35s ease; }
+    .nav nav a:hover { color: var(--text); }
+    .nav nav a:hover::after, .nav nav a.active::after { transform: scaleX(1); transform-origin: left; }
+    .nav nav a.active { color: var(--text); }
+    .menu-btn { display: none; background: none; border: 1px solid var(--line); color: var(--text); width: 40px; height: 40px; border-radius: 10px; font-size: 1.1rem; cursor: pointer; }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      position: relative; min-height: 100vh; min-height: 100svh; display: flex; align-items: center; overflow: hidden;
+      background: #0b0918 url("dev.jpeg") center / cover no-repeat;
+    }
+    .hero::before {
+      content: ""; position: absolute; inset: 0;
+      background:
+        linear-gradient(90deg, rgba(7,6,15,.96) 0%, rgba(7,6,15,.88) 42%, rgba(7,6,15,.55) 100%),
+        radial-gradient(800px 500px at 80% 20%, rgba(139,92,246,.35), transparent 60%),
+        radial-gradient(600px 400px at 10% 90%, rgba(255,61,127,.22), transparent 60%);
+    }
+    #particles { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .hero .wrap { position: relative; z-index: 2; display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; padding-top: 90px; padding-bottom: 60px; }
+    .hello { font-family: var(--mono); color: var(--teal); font-size: .95rem; margin-bottom: 14px; }
+    .hello .blink { animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    .hero h1 { font-family: var(--display); font-size: clamp(2.8rem, 7vw, 5.2rem); letter-spacing: -.03em; font-weight: 700; }
+    .hero h1 .line { display: block; overflow: hidden; }
+    .hero h1 .line span { display: inline-block; transform: translateY(110%); }
+    body.ready .hero h1 .line span { animation: rise .9s cubic-bezier(.2,.8,.2,1) forwards; }
+    body.ready .hero h1 .line:nth-child(2) span { animation-delay: .12s; }
+    @keyframes rise { to { transform: none; } }
+    .typer { font-family: var(--mono); font-size: clamp(1rem, 2vw, 1.25rem); margin: 18px 0 18px; color: var(--text); min-height: 1.6em; }
+    .typer .caret { display: inline-block; width: 10px; height: 1.1em; vertical-align: -.15em; background: var(--pink); margin-left: 3px; animation: blink 1s steps(1) infinite; }
+    .hero p.lead { color: var(--muted); max-width: 520px; margin: 0 0 30px; }
+    .cta { display: flex; flex-wrap: wrap; gap: 14px; }
+    .btn {
+      position: relative; display: inline-flex; align-items: center; gap: 10px; padding: 14px 26px; border-radius: 12px;
+      font-weight: 600; font-size: .95rem; border: 1px solid var(--line); overflow: hidden; cursor: pointer;
+      transition: transform .2s ease, box-shadow .3s ease; background: rgba(255,255,255,.04); color: var(--text);
+    }
+    .btn.primary { background: linear-gradient(110deg, #8b5cf6, #ff3d7f, #fbbf24, #ff3d7f, #8b5cf6); background-size: 200% 100%; border: 0; animation: shimmer 4s linear infinite; box-shadow: 0 10px 30px rgba(255,61,127,.3); }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+    .btn:hover { box-shadow: 0 12px 34px rgba(139,92,246,.4); }
+    .btn .arrow { transition: transform .3s; }
+    .btn:hover .arrow { transform: translateX(4px); }
+
+    /* Code editor */
+    .editor {
+      background: rgba(13,11,28,.82); border: 1px solid var(--line); border-radius: 16px; overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(139,92,246,.15), 0 0 60px rgba(139,92,246,.18);
+      backdrop-filter: blur(8px); transform-style: preserve-3d; animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float { 50% { transform: translateY(-12px); } }
+    .editor .bar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.03); }
+    .editor .bar i { width: 11px; height: 11px; border-radius: 50%; display: block; }
+    .editor .bar i:nth-child(1) { background: #ff5f57; } .editor .bar i:nth-child(2) { background: #febc2e; } .editor .bar i:nth-child(3) { background: #28c840; }
+    .editor .bar span { margin-left: 10px; font-family: var(--mono); font-size: .78rem; color: var(--muted); }
+    .editor pre { margin: 0; padding: 18px 20px 22px; font: 13.5px/1.75 var(--mono); color: #d6d3f0; min-height: 330px; white-space: pre-wrap; counter-reset: ln; }
+    .tk-kw { color: #c084fc; } .tk-fn { color: #5eead4; } .tk-str { color: #fbbf24; } .tk-cm { color: #6b6890; font-style: italic; }
+    .tk-ty { color: #ff7aa8; } .tk-op { color: #94a3b8; }
+    .editor .cur { display: inline-block; width: 8px; height: 1.15em; vertical-align: -.2em; background: var(--teal); animation: blink 1s steps(1) infinite; }
+    .editor .console { border-top: 1px solid var(--line); padding: 10px 20px; font: 12.5px var(--mono); color: var(--teal); min-height: 40px; }
+
+    .scroll-hint { position: absolute; left: 50%; bottom: 24px; z-index: 2; transform: translateX(-50%); width: 26px; height: 42px; border: 2px solid rgba(255,255,255,.35); border-radius: 14px; }
+    .scroll-hint::after { content: ""; position: absolute; left: 50%; top: 8px; width: 4px; height: 8px; border-radius: 2px; background: #fff; transform: translateX(-50%); animation: wheel 1.6s ease-in-out infinite; }
+    @keyframes wheel { 0% { opacity: 0; transform: translate(-50%, 0); } 30% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, 14px); } }
+
+    /* ---------- Marquee ---------- */
+    .marquee { border-block: 1px solid var(--line); background: var(--bg-2); overflow: hidden; padding: 18px 0; position: relative; z-index: 2; }
+    .marquee .track { display: flex; gap: 48px; width: max-content; animation: marquee 38s linear infinite; }
+    .marquee:hover .track { animation-play-state: paused; }
+    .marquee span { font-family: var(--display); font-size: 1.35rem; font-weight: 500; white-space: nowrap; color: var(--muted); display: inline-flex; align-items: center; gap: 48px; }
+    .marquee span::after { content: "✦"; color: var(--pink); font-size: .9rem; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+
+    /* ---------- Sections ---------- */
+    section { position: relative; padding: 110px 0; z-index: 2; }
+    .sec-head { margin-bottom: 48px; }
+    .sec-num { font-family: var(--mono); color: var(--pink); font-size: .9rem; }
+    .sec-head h2 { font-family: var(--display); font-size: clamp(2rem, 4.5vw, 3.2rem); letter-spacing: -.02em; margin-top: 6px; }
+    .sec-head h2::after { content: ""; display: block; width: 64px; height: 4px; border-radius: 4px; background: var(--grad); margin-top: 16px; }
+
+    /* About */
+    .about-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 56px; align-items: start; }
+    .about-intro { font-size: 1.25rem; line-height: 1.6; color: var(--text); }
+    .about-intro em { font-style: normal; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 600; }
+    .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 32px; }
+    .stat { padding: 22px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); }
+    .stat b { display: block; font-family: var(--display); font-size: 2.6rem; line-height: 1; }
+    .stat span { color: var(--muted); font-size: .88rem; }
+    .points { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+    .points li { display: flex; gap: 14px; padding: 16px 18px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); color: var(--muted); transition: border-color .3s, transform .3s, color .3s; }
+    .points li:hover { border-color: rgba(139,92,246,.5); transform: translateX(6px); color: var(--text); }
+    .points li::before { content: "▹"; color: var(--teal); font-family: var(--mono); }
+
+    /* Skills: orbit + cards */
+    #skills { background: var(--bg-2); overflow: hidden; }
+    .skills-grid { display: grid; grid-template-columns: 420px 1fr; gap: 56px; align-items: center; }
+    .orbit { position: relative; width: 100%; aspect-ratio: 1; max-width: 420px; margin: 0 auto; }
+    .orbit .core {
+      position: absolute; inset: 36%; border-radius: 50%; display: grid; place-items: center; text-align: center;
+      background: radial-gradient(circle at 30% 30%, #a78bfa, #6d28d9 60%, #3b0764); font-family: var(--display); font-weight: 700; font-size: 1.05rem; line-height: 1.2;
+      box-shadow: 0 0 60px rgba(139,92,246,.6), inset 0 0 20px rgba(255,255,255,.2); animation: pulse 3s ease-in-out infinite;
+    }
+    @keyframes pulse { 50% { box-shadow: 0 0 90px rgba(255,61,127,.55), inset 0 0 20px rgba(255,255,255,.2); } }
+    .ring { position: absolute; border-radius: 50%; border: 1px dashed rgba(255,255,255,.14); animation: spin linear infinite; }
+    .ring.r1 { inset: 20%; animation-duration: 22s; }
+    .ring.r2 { inset: 6%; animation-duration: 34s; animation-direction: reverse; }
+    .ring.r3 { inset: -6%; animation-duration: 48s; }
+    .ring .chip {
+      position: absolute; left: 50%; top: 50%; width: 0; height: 0; font: 600 .74rem var(--mono); white-space: nowrap;
+      transform: rotate(var(--a)) translate(var(--rad)) rotate(calc(-1 * var(--a)));
+    }
+    .ring .chip > b {
+      position: absolute; left: 0; top: 0; translate: -50% -50%; padding: 6px 12px; border-radius: 999px;
+      background: #15122b; border: 1px solid var(--c, var(--violet)); color: var(--c, var(--violet));
+      box-shadow: 0 0 14px color-mix(in srgb, var(--c, var(--violet)) 35%, transparent);
+    }
+    .orbit { --R: 210px; }
+    .r1 .chip { --rad: calc(var(--R) * .6); }
+    .r2 .chip { --rad: calc(var(--R) * .88); }
+    .r3 .chip { --rad: calc(var(--R) * 1.12); }
+    .ring .chip > b { display: inline-block; font-weight: 600; animation: spin linear infinite reverse; }
+    .r1 .chip > b { animation-duration: 22s; } .r2 .chip > b { animation-duration: 34s; animation-direction: normal; } .r3 .chip > b { animation-duration: 48s; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .skill-cards { display: grid; gap: 18px; }
+    .tilt {
+      position: relative; padding: 24px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line);
+      transform-style: preserve-3d; transition: transform .15s ease-out, border-color .3s; will-change: transform;
+    }
+    .tilt::after {
+      content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .3s;
+      background: radial-gradient(400px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.12), transparent 45%);
+    }
+    .tilt:hover { border-color: rgba(255,255,255,.2); }
+    .tilt:hover::after { opacity: 1; }
+    .skill-cards h3 { font-family: var(--display); font-size: 1.15rem; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+    .skill-cards h3 i { width: 10px; height: 10px; border-radius: 50%; background: var(--c); box-shadow: 0 0 12px var(--c); }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag { font: 500 .8rem var(--mono); padding: 5px 11px; border-radius: 8px; color: var(--c, var(--violet)); background: color-mix(in srgb, var(--c, var(--violet)) 12%, transparent); border: 1px solid color-mix(in srgb, var(--c, var(--violet)) 30%, transparent); }
+
+    /* Certifications: flip cards */
+    .certs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; }
+    .flip { perspective: 900px; height: 210px; }
+    .flip .inner { position: relative; width: 100%; height: 100%; transition: transform .8s cubic-bezier(.2,.8,.2,1); transform-style: preserve-3d; }
+    .flip:hover .inner, .flip:focus-within .inner, .flip.flipped .inner { transform: rotateY(180deg); }
+    .flip .face {
+      position: absolute; inset: 0; border-radius: 18px; padding: 22px 18px; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+      display: flex; flex-direction: column; justify-content: space-between; border: 1px solid var(--line); background: var(--surface);
+    }
+    .flip .face.back { transform: rotateY(180deg); background: var(--g); border: 0; justify-content: center; align-items: center; text-align: center; }
+    .flip .badge { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; font-size: 1.4rem; background: var(--g); box-shadow: 0 8px 24px rgba(0,0,0,.3); }
+    .flip h3 { font-family: var(--display); font-size: 1.02rem; font-weight: 500; }
+    .flip .back b { font-family: var(--display); font-size: 1.6rem; display: block; }
+    .flip .back small { font-family: var(--mono); font-size: .75rem; opacity: .9; }
+    .flip .hint { font: .7rem var(--mono); color: var(--muted); }
+
+    /* Experience timeline */
+    #experience { background: var(--bg-2); }
+    .timeline { position: relative; display: grid; gap: 34px; padding-left: 46px; }
+    .timeline .rail { position: absolute; left: 12px; top: 0; bottom: 0; width: 2px; background: var(--line); }
+    .timeline .rail i { position: absolute; inset: 0; background: linear-gradient(180deg, var(--violet), var(--pink), var(--amber)); transform-origin: top; transform: scaleY(var(--p, 0)); }
+    .timeline .rail::after {
+      content: ""; position: absolute; left: 50%; top: calc(var(--p, 0) * 100%); width: 14px; height: 14px; border-radius: 50%;
+      background: #fff; transform: translate(-50%, -50%); box-shadow: 0 0 0 5px rgba(255,61,127,.35), 0 0 22px var(--pink);
+    }
+    .job { position: relative; }
+    .job::before {
+      content: ""; position: absolute; left: -40px; top: 30px; width: 14px; height: 14px; border-radius: 50%;
+      background: var(--bg-2); border: 2px solid rgba(255,255,255,.25); transition: all .4s;
+    }
+    .job.lit::before { background: var(--pink); border-color: var(--pink); box-shadow: 0 0 16px var(--pink); }
+    .job .tilt { padding: 28px 30px; }
+    .job-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; }
+    .job-head h3 { font-family: var(--display); font-size: 1.35rem; }
+    .date { font: 600 .8rem var(--mono); color: var(--teal); border: 1px solid rgba(45,212,191,.35); padding: 4px 10px; border-radius: 8px; white-space: nowrap; align-self: flex-start; }
+    .meta { color: var(--pink); font-size: .92rem; font-weight: 500; margin: 6px 0 16px; }
+    .job ul { margin: 16px 0 0; padding: 0; list-style: none; color: var(--muted); }
+    .job li { padding-left: 22px; position: relative; margin: 8px 0; }
+    .job li::before { content: "→"; position: absolute; left: 0; color: var(--violet); }
+    .job details summary { cursor: pointer; font: 600 .82rem var(--mono); color: var(--teal); margin-top: 14px; list-style: none; }
+    .job details summary::-webkit-details-marker { display: none; }
+    .job details summary::before { content: "+ "; }
+    .job details[open] summary::before { content: "− "; }
+    .job details[open] summary { margin-bottom: 4px; }
+
+    /* Contact */
+    #contact { text-align: center; overflow: hidden; }
+    #contact .blob { position: absolute; width: 600px; height: 600px; left: 50%; top: 50%; transform: translate(-50%, -50%); border-radius: 50%; filter: blur(80px); opacity: .45;
+      background: conic-gradient(from 0deg, var(--violet), var(--pink), var(--amber), var(--teal), var(--violet)); animation: spin 14s linear infinite; z-index: -1; }
+    #contact h2 { font-family: var(--display); font-size: clamp(2.4rem, 7vw, 5rem); letter-spacing: -.03em; }
+    #contact p { color: var(--muted); max-width: 540px; margin: 18px auto 34px; font-size: 1.05rem; }
+    #contact .cta { justify-content: center; }
+    footer { position: relative; z-index: 2; border-top: 1px solid var(--line); padding: 26px 0; text-align: center; color: var(--muted); font: .82rem var(--mono); }
+    footer span { color: var(--pink); }
+
+    /* Reveal */
+    .js .reveal { opacity: 0; transform: translateY(40px); transition: opacity .9s ease, transform .9s cubic-bezier(.2,.8,.2,1); transition-delay: var(--d, 0s); }
+    .js .reveal.in { opacity: 1; transform: none; }
+
+    @media (max-width: 960px) {
+      .hero .wrap, .about-grid, .skills-grid { grid-template-columns: 1fr; }
+      .editor pre { min-height: 0; font-size: 12.5px; }
+      .certs { grid-template-columns: repeat(2, 1fr); }
+      .orbit { max-width: 340px; --R: 170px; }
+    }
+    @media (max-width: 720px) {
+      .wrap { padding: 0 16px; }
+      .menu-btn { display: block; }
+      .nav nav { display: none; position: absolute; top: 66px; left: 0; right: 0; flex-direction: column; gap: 0; background: rgba(7,6,15,.97); border-bottom: 1px solid var(--line); }
+      .nav nav.open { display: flex; }
+      .nav nav a { padding: 15px 16px; border-top: 1px solid var(--line); }
+      section { padding: 80px 0; }
+      .hero::before { background: linear-gradient(180deg, rgba(7,6,15,.85), rgba(7,6,15,.95)), radial-gradient(500px 400px at 80% 10%, rgba(139,92,246,.35), transparent 60%); }
+      .scroll-hint { display: none; }
+      .timeline { padding-left: 32px; }
+      .timeline .rail { left: 6px; }
+      .job::before { left: -33px; }
+      .job .tilt { padding: 22px 20px; }
+      .flip { height: 190px; }
+      .orbit { max-width: 250px; --R: 125px; margin-block: 30px; }
+      .ring .chip { font-size: .66rem; } .ring .chip > b { padding: 4px 9px; }
+    }
+    @media (max-width: 420px) { .certs { grid-template-columns: 1fr; } .flip { height: 160px; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001s !important; animation-iteration-count: 1 !important; transition-duration: .001s !important; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
 </head>
 <body>
+  <div id="progress"></div>
+  <div id="cursor-glow"></div>
+  <div id="cursor-dot"></div>
 
-<div class="container">
-    <h1>Welcome! What's your name?</h1>
-    <input type="text" id="username" placeholder="Enter your name">
-    <button onclick="greetUser()">Submit</button>
-    <p id="greeting"></p>
-    <p id="quote" class="quote"></p>
-</div>
+  <header class="nav" id="nav">
+    <div class="wrap">
+      <a href="#top" class="brand"><span class="tag-open">&lt;</span>Pooja<span class="grad-text">.dev</span> <span class="tag-close">/&gt;</span></a>
+      <nav id="menu">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#certifications">Certifications</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    </div>
+  </header>
 
-<script>
-    const quotes = [
-        "The best way to predict the future is to create it.",
-        "Believe you can and you're halfway there.",
-        "In the middle of difficulty lies opportunity.",
-        "You are never too old to set another goal or to dream a new dream.",
-        "Success is not final, failure is not fatal: It is the courage to continue that counts."
-    ];
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero" style="padding:0">
+      <canvas id="particles" aria-hidden="true"></canvas>
+      <div class="wrap">
+        <div>
+          <div class="hello">&gt; hello world, I'm<span class="blink">_</span></div>
+          <h1>
+            <span class="line"><span>Pooja</span></span>
+            <span class="line"><span class="grad-text">Hemrajani</span></span>
+          </h1>
+          <div class="typer"><span id="typed"></span><span class="caret"></span></div>
+          <p class="lead">You are the <strong>developer</strong> of your own <strong>life</strong>. I build Salesforce CPQ and Quote-to-Cash solutions
+            that make configuring, pricing, approving and renewing feel effortless.</p>
+          <div class="cta">
+            <a class="btn primary magnetic" href="#about">Begin <span class="arrow">→</span></a>
+            <a class="btn magnetic" href="#contact">Get in touch</a>
+          </div>
+        </div>
+        <div class="editor" id="editor">
+          <div class="bar"><i></i><i></i><i></i><span>Pooja.cls</span></div>
+          <pre id="code"></pre>
+          <div class="console" id="console">&nbsp;</div>
+        </div>
+      </div>
+      <a href="#about" class="scroll-hint" aria-label="Scroll down"></a>
+    </section>
 
-    function greetUser() {
-        const username = document.getElementById("username").value;
-        const greeting = document.getElementById("greeting");
-        const quote = document.getElementById("quote");
+    <!-- MARQUEE -->
+    <div class="marquee" aria-hidden="true">
+      <div class="track">
+        <span>Salesforce CPQ</span><span>Quote-to-Cash</span><span>Apex</span><span>Lightning Web Components</span>
+        <span>Price Rules</span><span>Product Rules</span><span>QCP</span><span>MuleSoft</span><span>SAP</span>
+        <span>AWS EventBridge</span><span>Configure · Amend · Renew</span><span>Salesforce Flows</span>
+        <span>Salesforce CPQ</span><span>Quote-to-Cash</span><span>Apex</span><span>Lightning Web Components</span>
+        <span>Price Rules</span><span>Product Rules</span><span>QCP</span><span>MuleSoft</span><span>SAP</span>
+        <span>AWS EventBridge</span><span>Configure · Amend · Renew</span><span>Salesforce Flows</span>
+      </div>
+    </div>
 
-        if (username) {
-            greeting.textContent = `Hi, ${username}!`;
-            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-            quote.textContent = `"${randomQuote}"`;
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="wrap">
+        <div class="sec-head reveal"><div class="sec-num">01 // about</div><h2 class="scramble">Professional summary</h2></div>
+        <div class="about-grid">
+          <div class="reveal">
+            <p class="about-intro">A Salesforce CPQ Developer with <em>5+ years</em> turning complex pricing, approvals and
+              subscription lifecycles into clean, automated <em>Quote-to-Cash</em> flows.</p>
+            <div class="stats">
+              <div class="stat"><b class="grad-text" data-count="5" data-suffix="+">0</b><span>Years in Salesforce CPQ</span></div>
+              <div class="stat"><b class="grad-text" data-count="5">0</b><span>Salesforce certifications</span></div>
+              <div class="stat"><b class="grad-text" data-count="4">0</b><span>CPQ implementations</span></div>
+              <div class="stat"><b class="grad-text" data-count="30" data-suffix="+">0</b><span>Member Agile teams</span></div>
+            </div>
+          </div>
+          <ul class="points">
+            <li class="reveal" style="--d:.0s">CPQ development, configuration and administration in Agile environments.</li>
+            <li class="reveal" style="--d:.05s">Product configuration, pricing, approvals and subscription lifecycle management.</li>
+            <li class="reveal" style="--d:.1s">Configure, Amend, Renew (CAR), add-ons and custom renewal processes.</li>
+            <li class="reveal" style="--d:.15s">Apex, Triggers, Batch Apex, Queueables, LWC, Visualforce, SOQL, SOSL, Flows and REST/SOAP.</li>
+            <li class="reveal" style="--d:.2s">Integrations with MuleSoft, SAP, AWS EventBridge and third-party apps.</li>
+            <li class="reveal" style="--d:.25s">Product Rules, Price Rules, QCP, Contract and Order Management.</li>
+            <li class="reveal" style="--d:.3s">AI-assisted development with Cursor for speed, testing and code quality.</li>
+            <li class="reveal" style="--d:.35s">Analytical, troubleshooting and stakeholder communication across distributed teams.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <div class="wrap">
+        <div class="sec-head reveal"><div class="sec-num">02 // toolkit</div><h2 class="scramble">Technical skills</h2></div>
+        <div class="skills-grid">
+          <div class="orbit reveal" aria-hidden="true">
+            <div class="ring r1">
+              <span class="chip" style="--a:0deg;--c:#c084fc"><b>Apex</b></span>
+              <span class="chip" style="--a:120deg;--c:#5eead4"><b>LWC</b></span>
+              <span class="chip" style="--a:240deg;--c:#fbbf24"><b>Flows</b></span>
+            </div>
+            <div class="ring r2">
+              <span class="chip" style="--a:30deg;--c:#ff7aa8"><b>Price Rules</b></span>
+              <span class="chip" style="--a:120deg;--c:#5eead4"><b>QCP</b></span>
+              <span class="chip" style="--a:210deg;--c:#c084fc"><b>Q2C</b></span>
+              <span class="chip" style="--a:300deg;--c:#fbbf24"><b>CAR</b></span>
+            </div>
+            <div class="ring r3">
+              <span class="chip" style="--a:70deg;--c:#5eead4"><b>MuleSoft</b></span>
+              <span class="chip" style="--a:190deg;--c:#ff7aa8"><b>SAP</b></span>
+              <span class="chip" style="--a:310deg;--c:#c084fc"><b>AWS</b></span>
+            </div>
+            <div class="core">Salesforce<br>CPQ</div>
+          </div>
+          <div class="skill-cards">
+            <div class="tilt reveal" style="--c:#c084fc">
+              <h3><i></i>Salesforce CPQ</h3>
+              <div class="tags"><span class="tag">Salesforce CPQ</span><span class="tag">Quote-to-Cash</span><span class="tag">Product Rules</span><span class="tag">Price Rules</span><span class="tag">QCP</span><span class="tag">Bundles</span><span class="tag">CAR</span><span class="tag">Renewals</span><span class="tag">Approvals</span><span class="tag">Salesforce Admin</span></div>
+            </div>
+            <div class="tilt reveal" style="--c:#ff7aa8;--d:.1s">
+              <h3><i></i>Development</h3>
+              <div class="tags"><span class="tag">Apex</span><span class="tag">LWC</span><span class="tag">Visualforce</span><span class="tag">SOQL</span><span class="tag">SOSL</span><span class="tag">JavaScript</span><span class="tag">Salesforce Flows</span><span class="tag">Batch Apex</span><span class="tag">Queueables</span></div>
+            </div>
+            <div class="tilt reveal" style="--c:#5eead4;--d:.2s">
+              <h3><i></i>Integration &amp; DevOps</h3>
+              <div class="tags"><span class="tag">MuleSoft</span><span class="tag">SAP</span><span class="tag">AWS EventBridge</span><span class="tag">REST APIs</span><span class="tag">SOAP APIs</span><span class="tag">Copado</span><span class="tag">Gearset</span><span class="tag">Git</span><span class="tag">VS Code</span><span class="tag">Cursor IDE</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CERTIFICATIONS -->
+    <section id="certifications">
+      <div class="wrap">
+        <div class="sec-head reveal"><div class="sec-num">03 // credentials</div><h2 class="scramble">Certifications</h2></div>
+        <div class="certs">
+          <div class="flip reveal" tabindex="0" style="--g:linear-gradient(135deg,#7c3aed,#c026d3)"><div class="inner">
+            <div class="face"><div class="badge">★</div><div><h3>CPQ Specialist</h3><div class="hint">hover to flip ↻</div></div></div>
+            <div class="face back"><div><b>CPQ</b><small>Salesforce Certified<br>CPQ Specialist</small></div></div>
+          </div></div>
+          <div class="flip reveal" tabindex="0" style="--d:.08s;--g:linear-gradient(135deg,#ff3d7f,#f97316)"><div class="inner">
+            <div class="face"><div class="badge">⌘</div><div><h3>Platform Developer I</h3><div class="hint">hover to flip ↻</div></div></div>
+            <div class="face back"><div><b>PD1</b><small>Salesforce Platform<br>Developer I</small></div></div>
+          </div></div>
+          <div class="flip reveal" tabindex="0" style="--d:.16s;--g:linear-gradient(135deg,#0ea5e9,#6366f1)"><div class="inner">
+            <div class="face"><div class="badge">⚙</div><div><h3>Administrator</h3><div class="hint">hover to flip ↻</div></div></div>
+            <div class="face back"><div><b>ADM</b><small>Salesforce Certified<br>Administrator</small></div></div>
+          </div></div>
+          <div class="flip reveal" tabindex="0" style="--d:.24s;--g:linear-gradient(135deg,#10b981,#0d9488)"><div class="inner">
+            <div class="face"><div class="badge">◆</div><div><h3>Associate</h3><div class="hint">hover to flip ↻</div></div></div>
+            <div class="face back"><div><b>ASC</b><small>Salesforce Certified<br>Associate</small></div></div>
+          </div></div>
+          <div class="flip reveal" tabindex="0" style="--d:.32s;--g:linear-gradient(135deg,#f59e0b,#ff3d7f)"><div class="inner">
+            <div class="face"><div class="badge">✦</div><div><h3>AI Associate</h3><div class="hint">hover to flip ↻</div></div></div>
+            <div class="face back"><div><b>AI</b><small>Salesforce<br>AI Associate</small></div></div>
+          </div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <div class="wrap">
+        <div class="sec-head reveal"><div class="sec-num">04 // work</div><h2 class="scramble">Project experience</h2></div>
+        <div class="timeline" id="timeline">
+          <div class="rail"><i></i></div>
+
+          <article class="job reveal"><div class="tilt">
+            <div class="job-head"><h3>Salesforce CPQ Implementation</h3><span class="date">Current</span></div>
+            <div class="meta">Salesforce CPQ Developer · Team of 30+</div>
+            <div class="tags" style="--c:#c084fc"><span class="tag">Salesforce CPQ</span><span class="tag">Apex</span><span class="tag">MuleSoft</span><span class="tag">SAP</span><span class="tag">Custom Renewals</span><span class="tag">REST APIs</span><span class="tag">Flows</span><span class="tag">Copado</span></div>
+            <ul>
+              <li>Designed and developed custom renewal functionality to automate enterprise contract renewals and subscription lifecycle management.</li>
+              <li>Implemented Salesforce–MuleSoft–SAP integrations to synchronize quotes, contracts, pricing and order data.</li>
+              <li>Configured CPQ for complex renewal scenarios, pricing logic, contract management and Q2C workflows.</li>
+            </ul>
+            <details><summary>more details</summary><ul>
+              <li>Developed Apex classes, triggers, batch processes and asynchronous jobs for enterprise processes and integrations.</li>
+              <li>Managed deployments and releases with Copado across development, QA and production.</li>
+              <li>Worked with Salesforce, MuleSoft and SAP teams to troubleshoot integrations and optimize performance.</li>
+              <li>Participated in requirement analysis, solution design, testing, deployment and production support.</li>
+              <li>Used Cursor AI to accelerate development while maintaining coding standards and quality.</li>
+            </ul></details>
+          </div></article>
+
+          <article class="job reveal"><div class="tilt">
+            <div class="job-head"><h3>Salesforce CPQ Implementation</h3><span class="date">Mar 2025 – Dec 2025</span></div>
+            <div class="meta">Salesforce CPQ Consultant · Team of 30+</div>
+            <div class="tags" style="--c:#ff7aa8"><span class="tag">Product Rules</span><span class="tag">Price Rules</span><span class="tag">CAR</span><span class="tag">Apex</span><span class="tag">Q2C</span><span class="tag">Flows</span><span class="tag">Gearset</span></div>
+            <ul>
+              <li>Configured Product Rules, Price Rules, Bundles, Nested Bundles and approval workflows.</li>
+              <li>Supported Configure, Amend, Renew (CAR) and subscription management processes.</li>
+              <li>Developed Apex customizations for complex pricing and CPQ automation.</li>
+            </ul>
+            <details><summary>more details</summary><ul>
+              <li>Worked on Q2C processes including product configuration, pricing, approvals and contract management.</li>
+              <li>Managed deployments with Gearset, supporting CI/CD and metadata promotion across environments.</li>
+              <li>Worked closely with business stakeholders to analyse requirements and resolve production issues.</li>
+              <li>Used Cursor AI to improve productivity for Apex and CPQ enhancements.</li>
+            </ul></details>
+          </div></article>
+
+          <article class="job reveal"><div class="tilt">
+            <div class="job-head"><h3>Salesforce CPQ Development</h3><span class="date">Jul 2022 – Feb 2025</span></div>
+            <div class="meta">Salesforce CPQ Specialist · Team of 30+</div>
+            <div class="tags" style="--c:#5eead4"><span class="tag">Salesforce CPQ</span><span class="tag">Apex</span><span class="tag">AWS EventBridge</span><span class="tag">REST APIs</span><span class="tag">Named Credentials</span><span class="tag">QCP</span><span class="tag">Flows</span></div>
+            <ul>
+              <li>Developed and administered CPQ solutions supporting enterprise Quote-to-Cash processes.</li>
+              <li>Customized the Quote Calculator Plugin (QCP) for dynamic pricing and business-specific calculations.</li>
+              <li>Integrated Salesforce with AWS EventBridge using Named Credentials and REST APIs.</li>
+            </ul>
+            <details><summary>more details</summary><ul>
+              <li>Implemented Product Rules, Price Rules, approval processes and advanced pricing configurations.</li>
+              <li>Integrated SignNow for secure document management and e-signature workflows.</li>
+              <li>Automated CPQ processes using Salesforce Flows, Apex and Process Builder.</li>
+              <li>Collaborated with cross-functional teams to deliver scalable CPQ and integration solutions.</li>
+              <li>Used Cursor AI to improve delivery speed, testing and code quality.</li>
+            </ul></details>
+          </div></article>
+
+          <article class="job reveal"><div class="tilt">
+            <div class="job-head"><h3>Salesforce CPQ Development</h3><span class="date">Jul 2021 – Jul 2022</span></div>
+            <div class="meta">Salesforce CPQ Developer · Team of 4</div>
+            <div class="tags" style="--c:#fbbf24"><span class="tag">Salesforce CPQ</span><span class="tag">Apex</span><span class="tag">LWC</span><span class="tag">Visualforce</span><span class="tag">JavaScript</span><span class="tag">Q2C</span></div>
+            <ul>
+              <li>Developed CPQ customizations using Apex, Lightning Web Components and Visualforce.</li>
+              <li>Implemented subscription lifecycle management: renewals, amendments, cancellations and usage-based pricing.</li>
+              <li>Configured pricing models, product bundles, discount schedules and CPQ automation.</li>
+            </ul>
+            <details><summary>more details</summary><ul>
+              <li>Developed Apex test classes and maintained deployment quality through comprehensive unit testing.</li>
+              <li>Supported production deployments, issue resolution and ongoing system enhancements.</li>
+            </ul></details>
+          </div></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="blob"></div>
+      <div class="wrap">
+        <div class="sec-num reveal">05 // contact</div>
+        <h2 class="reveal">Let's build <span class="grad-text">something</span><br>awesome.</h2>
+        <p class="reveal">Open to Salesforce CPQ, Quote-to-Cash and integration opportunities. Reach out to discuss a project or role.</p>
+        <div class="cta reveal" id="contactLinks"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">© <span id="year"></span> Pooja Hemrajani · built with <span>♥</span> and a little Apex</div>
+  </footer>
+
+  <script>
+    // Fill in your contact details; empty values are hidden on the page.
+    const CONTACT = {
+      email: "pujahem24@gmail.com",
+      linkedin: "",
+      github: "https://github.com/poojahemrajani",
+      resume: ""  // e.g. "resume.pdf" after uploading the PDF to the repo
+    };
+
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const fine = matchMedia("(pointer: fine)").matches;
+    const $ = (s, r = document) => r.querySelector(s);
+    const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+    // ---------- Contact buttons ----------
+    const links = $("#contactLinks");
+    const add = (href, label, primary) => {
+      if (!href) return;
+      const a = document.createElement("a");
+      a.className = "btn magnetic" + (primary ? " primary" : "");
+      a.href = href; a.innerHTML = label + ' <span class="arrow">→</span>';
+      if (!href.startsWith("mailto:")) { a.target = "_blank"; a.rel = "noopener"; }
+      links.appendChild(a);
+    };
+    add(CONTACT.email && "mailto:" + CONTACT.email, "Email me", true);
+    add(CONTACT.linkedin, "LinkedIn", !CONTACT.email);
+    add(CONTACT.github, "GitHub", !CONTACT.email && !CONTACT.linkedin);
+    add(CONTACT.resume, "Download resume");
+    $("#year").textContent = new Date().getFullYear();
+
+    // ---------- Boot loader ----------
+    function boot(done) {
+      if (reduce) return done();
+      const el = document.createElement("div");
+      el.id = "boot";
+      el.innerHTML = '<div class="box"><div class="lines"></div><div class="bar"><i></i></div></div>';
+      document.body.appendChild(el);
+      const lines = $(".lines", el), bar = $(".bar i", el);
+      const steps = ["$ sfdx org open --target pooja", "<b>✓</b> loading CPQ packages", "<b>✓</b> compiling Apex classes", "<b>✓</b> deploying portfolio"];
+      let i = 0;
+      const tick = () => {
+        if (i < steps.length) {
+          lines.innerHTML += (i ? "\n" : "") + steps[i];
+          bar.style.width = ((i + 1) / steps.length * 100) + "%";
+          i++; setTimeout(tick, 260);
         } else {
-            greeting.textContent = "Please enter your name.";
-            quote.textContent = "";
+          setTimeout(() => { el.classList.add("done"); done(); setTimeout(() => el.remove(), 700); }, 250);
         }
+      };
+      tick();
     }
-</script>
 
+    // ---------- Typewriter roles ----------
+    function typer() {
+      const roles = ["Salesforce CPQ Developer", "Quote-to-Cash Specialist", "Apex & LWC Engineer", "Integration Builder"];
+      const out = $("#typed");
+      if (reduce) { out.textContent = roles[0]; return; }
+      let r = 0, c = 0, del = false;
+      const step = () => {
+        const word = roles[r];
+        out.textContent = word.slice(0, c);
+        if (!del && c === word.length) { del = true; return setTimeout(step, 1800); }
+        if (del && c === 0) { del = false; r = (r + 1) % roles.length; }
+        c += del ? -1 : 1;
+        setTimeout(step, del ? 35 : 70);
+      };
+      step();
+    }
+
+    // ---------- Live-typing code editor ----------
+    function editor() {
+      const K = "tk-kw", F = "tk-fn", S = "tk-str", C = "tk-cm", T = "tk-ty", O = "tk-op";
+      const code = [
+        [K,"public class "],[T,"Pooja"],[null," {\n"],
+        [C,"  // You are the developer of your own life\n"],
+        [K,"  public static void "],[F,"run"],[null,"() {\n"],
+        [K,"    if "],[null,"("],[F,"sad"],[null,"() "],[O,"=="],[K," true"],[null,") {\n"],
+        [null,"      "],[F,"sad"],[null,"()."],[F,"stop"],[null,"();\n"],
+        [null,"      "],[F,"beAwesome"],[null,"();\n    }\n"],
+        [T,"    Quote "],[null,"q "],[O,"= "],[T,"CPQ"],[null,"."],[F,"configure"],[null,"(products)\n"],
+        [null,"               ."],[F,"price"],[null,"(priceRules)\n"],
+        [null,"               ."],[F,"approve"],[null,"()\n"],
+        [null,"               ."],[F,"renew"],[null,"();\n"],
+        [T,"    System"],[null,"."],[F,"debug"],[null,"("],[S,"'Quote-to-Cash ✓'"],[null,");\n  }\n}"]
+      ];
+      const pre = $("#code"), cons = $("#console");
+      const cur = document.createElement("span"); cur.className = "cur";
+      const finish = () => { cons.textContent = "> USER_DEBUG | Quote-to-Cash ✓  ·  deploy succeeded in 0.42s"; };
+      if (reduce) {
+        pre.innerHTML = code.map(([c, t]) => c ? `<span class="${c}">${t}</span>` : t).join("");
+        return finish();
+      }
+      let seg = 0, ch = 0, node = null;
+      pre.appendChild(cur);
+      const step = () => {
+        if (seg >= code.length) { finish(); return setTimeout(restart, 6000); }
+        const [cls, text] = code[seg];
+        if (ch === 0) {
+          node = cls ? Object.assign(document.createElement("span"), { className: cls }) : document.createTextNode("");
+          pre.insertBefore(node, cur);
+        }
+        const c = text[ch];
+        node.textContent += text.slice(ch, ch + 2);
+        ch += 2;
+        if (ch >= text.length) { seg++; ch = 0; }
+        setTimeout(step, c === "\n" ? 120 : 15 + Math.random() * 30);
+      };
+      const restart = () => { pre.innerHTML = ""; pre.appendChild(cur); cons.innerHTML = "&nbsp;"; seg = 0; ch = 0; step(); };
+      step();
+    }
+
+    // ---------- Particle constellation ----------
+    function particles() {
+      const cv = $("#particles"), ctx = cv.getContext("2d");
+      let w, h, pts = [], mouse = { x: -9999, y: -9999 };
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      const resize = () => {
+        w = cv.offsetWidth; h = cv.offsetHeight;
+        cv.width = w * dpr; cv.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const n = Math.min(110, Math.floor(w * h / 13000));
+        pts = Array.from({ length: n }, () => ({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - .5) * .45, vy: (Math.random() - .5) * .45, r: Math.random() * 1.8 + .6 }));
+      };
+      resize(); addEventListener("resize", resize);
+      cv.parentElement.addEventListener("mousemove", e => { const b = cv.getBoundingClientRect(); mouse.x = e.clientX - b.left; mouse.y = e.clientY - b.top; });
+      cv.parentElement.addEventListener("mouseleave", () => { mouse.x = mouse.y = -9999; });
+      let visible = true;
+      new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(cv);
+      const draw = () => {
+        requestAnimationFrame(draw);
+        if (!visible) return;
+        ctx.clearRect(0, 0, w, h);
+        for (const p of pts) {
+          if (!reduce) { p.x += p.vx; p.y += p.vy; }
+          if (p.x < 0 || p.x > w) p.vx *= -1;
+          if (p.y < 0 || p.y > h) p.vy *= -1;
+          const dx = p.x - mouse.x, dy = p.y - mouse.y, d = Math.hypot(dx, dy);
+          if (d < 140) { p.x += dx / d * 1.2; p.y += dy / d * 1.2; }
+        }
+        for (let i = 0; i < pts.length; i++) {
+          const a = pts[i];
+          for (let j = i + 1; j < pts.length; j++) {
+            const b = pts[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+            if (d < 120) { ctx.strokeStyle = `rgba(167,139,250,${(1 - d / 120) * .35})`; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+          }
+          const md = Math.hypot(a.x - mouse.x, a.y - mouse.y);
+          if (md < 200) { ctx.strokeStyle = `rgba(255,61,127,${(1 - md / 200) * .6})`; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke(); }
+          ctx.fillStyle = i % 3 ? "rgba(255,255,255,.75)" : "#2dd4bf";
+          ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2); ctx.fill();
+        }
+      };
+      draw();
+    }
+
+    // ---------- Text scramble on headings ----------
+    function scramble(el) {
+      if (reduce || el.dataset.done) return;
+      el.dataset.done = 1;
+      const final = el.textContent, glyphs = "!<>-_\\/[]{}=+*^?#01";
+      let frame = 0;
+      const queue = [...final].map((c, i) => ({ c, start: Math.floor(Math.random() * 12), end: 12 + i * 1.6 + Math.random() * 10 }));
+      const tick = () => {
+        let out = "", done = 0;
+        for (const q of queue) {
+          if (frame >= q.end) { out += q.c; done++; }
+          else if (frame >= q.start && q.c !== " ") out += `<span style="color:var(--pink)">${glyphs[Math.floor(Math.random() * glyphs.length)]}</span>`;
+          else out += q.c === " " ? " " : "&nbsp;";
+        }
+        el.innerHTML = out; frame++;
+        if (done < queue.length) requestAnimationFrame(tick); else el.textContent = final;
+      };
+      tick();
+    }
+
+    // ---------- Count-up ----------
+    function countUp(el) {
+      const to = +el.dataset.count, suf = el.dataset.suffix || "";
+      if (reduce) { el.textContent = to + suf; return; }
+      const t0 = performance.now(), dur = 1600;
+      const f = t => { const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 4); el.textContent = Math.round(to * e) + suf; if (p < 1) requestAnimationFrame(f); };
+      requestAnimationFrame(f);
+    }
+
+    // ---------- Reveal / scramble / counters on scroll ----------
+    const io = new IntersectionObserver(entries => entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      const el = en.target;
+      el.classList.add("in");
+      $$(".scramble", el).forEach(scramble);
+      $$("[data-count]", el).forEach(countUp);
+      io.unobserve(el);
+    }), { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+    $$(".reveal").forEach(el => io.observe(el));
+
+    // ---------- 3D tilt + spotlight ----------
+    if (fine && !reduce) $$(".tilt").forEach(card => {
+      card.addEventListener("mousemove", e => {
+        const b = card.getBoundingClientRect(), x = (e.clientX - b.left) / b.width, y = (e.clientY - b.top) / b.height;
+        card.style.transform = `perspective(900px) rotateX(${(.5 - y) * 6}deg) rotateY(${(x - .5) * 8}deg) translateY(-4px)`;
+        card.style.setProperty("--mx", x * 100 + "%"); card.style.setProperty("--my", y * 100 + "%");
+      });
+      card.addEventListener("mouseleave", () => { card.style.transform = ""; });
+    });
+
+    // Editor follows the mouse slightly
+    if (fine && !reduce) {
+      const ed = $("#editor");
+      $(".hero").addEventListener("mousemove", e => {
+        const x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5;
+        ed.style.transform = `perspective(1000px) rotateY(${x * -10}deg) rotateX(${y * 8}deg)`;
+      });
+    }
+
+    // Flip cards on tap for touch screens
+    $$(".flip").forEach(f => f.addEventListener("click", () => { if (!fine) f.classList.toggle("flipped"); }));
+
+    // ---------- Magnetic buttons ----------
+    if (fine && !reduce) document.addEventListener("mousemove", e => {
+      $$(".magnetic").forEach(b => {
+        const r = b.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+        const dx = e.clientX - cx, dy = e.clientY - cy;
+        b.style.transform = Math.hypot(dx, dy) < 90 ? `translate(${dx * .25}px, ${dy * .3}px)` : "";
+      });
+    });
+
+    // ---------- Cursor ----------
+    if (fine) {
+      const glow = $("#cursor-glow"), dot = $("#cursor-dot");
+      let gx = 0, gy = 0, tx = 0, ty = 0;
+      addEventListener("mousemove", e => { tx = e.clientX; ty = e.clientY; dot.style.left = tx + "px"; dot.style.top = ty + "px"; });
+      const follow = () => { gx += (tx - gx) * .12; gy += (ty - gy) * .12; glow.style.left = gx + "px"; glow.style.top = gy + "px"; requestAnimationFrame(follow); };
+      follow();
+      document.addEventListener("mouseover", e => dot.classList.toggle("big", !!e.target.closest("a, button, .flip, summary")));
+    }
+
+    // ---------- Scroll: progress, nav, timeline, active link ----------
+    const prog = $("#progress"), nav = $("#nav"), tl = $("#timeline"), jobs = $$(".job"), navLinks = $$("#menu a");
+    const onScroll = () => {
+      const max = document.documentElement.scrollHeight - innerHeight;
+      prog.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+      nav.classList.toggle("scrolled", scrollY > 30);
+      const b = tl.getBoundingClientRect(), mid = innerHeight * .6;
+      const p = Math.max(0, Math.min(1, (mid - b.top) / b.height));
+      tl.style.setProperty("--p", p.toFixed(3));
+      jobs.forEach(j => j.classList.toggle("lit", j.getBoundingClientRect().top + 30 < mid));
+      let current = "";
+      $$("main section[id]").forEach(s => { if (s.getBoundingClientRect().top < innerHeight * .35) current = s.id; });
+      navLinks.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + current));
+    };
+    addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+    // ---------- Mobile menu ----------
+    const menu = $("#menu");
+    $("#menuBtn").addEventListener("click", () => menu.classList.toggle("open"));
+    menu.addEventListener("click", e => { if (e.target.tagName === "A") menu.classList.remove("open"); });
+
+    // ---------- Start ----------
+    particles();
+    boot(() => { document.body.classList.add("ready"); typer(); editor(); });
+  </script>
 </body>
 </html>
